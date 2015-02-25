@@ -1,0 +1,12 @@
+<html>
+<head>
+  <!-- Connects a css file from the folder static/css/ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <!-- The same with a JS file ->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</head>
+<body>
+  <!-- You can print a variable id -->
+  Hello world! {{id}}
+</body>
+</html>
