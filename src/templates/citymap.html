@@ -1,12 +1,46 @@
+<!DOCTYPE html>
 <html>
 <head>
-  <!-- Connects a css file from the folder static/css/ -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-  <!-- The same with a JS file ->
-  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+	<title></title>
+ 
+  	
+  	
+  	<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
+
+  	<!-- Connects a css file from the folder static/css/ -->
+  	
+  	<!--
+  	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" /> 
+  	-->
+  	<link rel="stylesheet" href="../static/css/style.css" /> 	 
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
+
+
 </head>
 <body>
-  <!-- You can print a variable id -->
-  Hello world! {{id}}
+    <!-- You can print a variable id -->
+    <!-- Hello world! {{id}} -->
+
+    <div id="map">
+    	<!-- add map ~ -->
+    </div>
+
+
+
+	<div class="board">
+		The map is only for test..<br/> This space is for histogram.. 		 
+	</div>
+	
+
+	<!-- JQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<!-- The same with a JS file -->
+  	<script src="../static/js/main.js"></script>
+  	<!--
+  	<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+	-->
+  	
+  	 
 </body>
 </html>
