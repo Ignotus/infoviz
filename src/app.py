@@ -1,10 +1,12 @@
 from flask import Flask, render_template, redirect, url_for
-from core.configuration import init 
+from core.configuration import init
+
+import core.parser as parser
 
 # Import blueprint modules
 route_modules = ['data', 'citymap']
 for module in route_modules:
-    exec('from routes.%s import %s' % (module, module))
+    exec('from routes.%s import *' % (module))
 
 app = Flask(__name__)
 
@@ -17,10 +19,14 @@ init(app)
 def main():
     return redirect(url_for("citymap.citymap_main"))
 
+# Achtung! Run the app from the directory src to make it works
+region_info = parser.parse_region_data('../data/Allochtonen in Amsterdam .csv')
+construct_data(region_info = region_info)
+construct_citymap()
+
 # Registers flask modules (called Blueprints)
-modules = [data, citymap]
-for module in modules:
-    app.register_blueprint(module)
+app.register_blueprint(data)
+app.register_blueprint(citymap)
 
 if __name__ == '__main__':
     # Run the app
