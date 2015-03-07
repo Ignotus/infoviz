@@ -7,6 +7,6 @@ citymap = Blueprint('citymap', __name__, url_prefix='/citymap')
 # see results
 @citymap.route('/')
 def citymap_main():
-  # Renders citymap.html and pass an argument id to the render
-  # in the citymap.html you can read it and process it
-  return render_template('citymap.html', id=1)
+    # Renders citymap.html and pass an argument id to the render
+    # in the citymap.html you can read it and process it
+    return render_template('citymap.html', id=1)

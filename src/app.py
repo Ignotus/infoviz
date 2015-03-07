@@ -15,13 +15,13 @@ init(app)
 # from the citymap blueprint
 @app.route('/')
 def main():
-  return redirect(url_for("citymap.citymap_main"))
+    return redirect(url_for("citymap.citymap_main"))
 
 # Registers flask modules (called Blueprints)
 modules = [data, citymap]
 for module in modules:
-  app.register_blueprint(module)
+    app.register_blueprint(module)
 
 if __name__ == '__main__':
-  # Run the app
-  app.run()
+    # Run the app
+    app.run()
