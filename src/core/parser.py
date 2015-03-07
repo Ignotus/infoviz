@@ -12,7 +12,7 @@ def parse_region_data(file_name):
                 continue
 
             coordinates = ET.fromstring(lexemes[1])[0][0][0].text.split(' ')
-            regions += [{'region' : lexemes[0],
-                         'border' : [coordinate[:-2].split(',') for coordinate in coordinates]}]
+            regions += [{'region' : int(lexemes[0]),
+                         'border' : [map(float, coordinate[:-2].split(',')) for coordinate in coordinates]}]
     
     return regions
