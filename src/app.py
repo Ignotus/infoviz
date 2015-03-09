@@ -20,7 +20,7 @@ def main():
     return redirect(url_for("citymap.citymap_main"))
 
 # Achtung! Run the app from the directory src to make it works
-region_info = parser.parse_region_data('../data/Allochtonen in Amsterdam .csv')
+region_info = parser.parse_region_data('../data/polygon-info.csv')
 construct_data(region_info = region_info)
 construct_citymap()
 
