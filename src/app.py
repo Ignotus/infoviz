@@ -1,7 +1,9 @@
 from flask import Flask, render_template, redirect, url_for
-from core.configuration import init
+from random import uniform
 
+from core.configuration import init
 import core.parser as parser
+
 
 # Import blueprint modules
 route_modules = ['data', 'citymap']
@@ -21,6 +23,8 @@ def main():
 
 # Achtung! Run the app from the directory src to make it works
 region_info = parser.parse_region_data('../data/polygon-info.csv')
+for i in range(len(region_info)):
+    region_info[i]['leisure_score'] = uniform(0, 1)
 construct_data(region_info = region_info)
 construct_citymap()
 
