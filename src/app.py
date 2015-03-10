@@ -25,6 +25,13 @@ def main():
 region_info = parser.parse_region_data('../data/polygon-info.csv')
 for i in range(len(region_info)):
     region_info[i]['leisure_score'] = uniform(0, 1)
+    region_info[i]['cultural_score'] = uniform(0, 1)
+    region_info[i]['green_score'] = uniform(0, 1)
+    region_info[i]['culinary_score'] = uniform(0, 1)
+    region_info[i]['sport_score'] = uniform(0, 1)
+    region_info[i]['relaxation_score'] = uniform(0, 1)
+    region_info[i]['spiritual_score'] = uniform(0, 1)
+    region_info[i]['activity_score'] =uniform(0, 1)
 construct_data(region_info = region_info)
 construct_citymap()
 
