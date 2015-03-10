@@ -25,7 +25,7 @@ def construct_data(region_info):
         types = ['green', 'cultural', 'culinary', 'sport', 'relaxation', 'spiritual', 'activity']
         return jsonify(results=types)
 
-    @data.route('/objects/<int:region>')
+    @data.route('/objects/<region>')
     def data_region_objects(region):
         objects = [{'name' : 'Amstelpark',
                     'type' : 'park',
@@ -77,10 +77,9 @@ def construct_data(region_info):
                                   [4.893496, 52.324424]]]}]
         return jsonify(results=objects)
 
-    @data.route('/objects/<int:region>/<object_type>')
+    @data.route('/objects/<region>/<object_type>')
     def data_region_objects_by_type(region, object_type):
         objects = [{'name' : 'Amstelpark-3',
-                    'type' : 'park',
                     'coordinates': [4.894538,52.3292545],
                     'borders' : [[[4.890624, 52.328765],
                                   [4.890614, 52.332059],
@@ -104,7 +103,6 @@ def construct_data(region_info):
                                   [4.89351, 52.324428],
                                   [4.893496, 52.324424]]]},
                    {'name' : 'Amstelpark-4',
-                    'type' : 'relaxation',
                     'coordinates': [4.894538,52.3292545],
                     'borders' : [[[4.890624, 52.328765],
                                   [4.890614, 52.332059],
