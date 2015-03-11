@@ -38,6 +38,7 @@ park_data = parser.parse_park_data('../data/green-areas-and-parks.csv')
 park_data = data_manip.add_postcode_for_places(region_info, park_data)
 
 sport_data = parser.parse_sport_fields_data('../data/open-sport-fields.csv')
+sport_data = data_manip.add_postcode_for_places(region_info, sport_data)
 
 places_data = park_data + sport_data
 
