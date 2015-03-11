@@ -11,6 +11,14 @@ Example:
 
 http://127.0.0.1:5000/data/regions
 
+## /data/regions/< region_id >
+
+Shows statatistic for the current region
+
+Example:
+
+http://127.0.0.1:5000/data/regions/1063
+
 ## /data/objects/types
 
 Show all available types that we can process now (use it instead of hard coded types in the interface to make our system scalable).
