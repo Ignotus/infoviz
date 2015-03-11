@@ -18,11 +18,11 @@ def construct_data(region_info):
 
     @data.route('/regions')
     def data_regions():
-        return jsonify(results=region_info)
+        return jsonif y(results=region_info)
 
     @data.route('/objects/types')
     def data_object_types():
-        types = ['green', 'cultural', 'culinary', 'sport', 'relaxation', 'spiritual', 'activity']
+        types = ['green']
         return jsonify(results=types)
 
     @data.route('/objects/<region>')
