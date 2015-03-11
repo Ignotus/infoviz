@@ -14,7 +14,7 @@ def parse_region_data(file_name):
 
             coordinates = ET.fromstring(lexemes[1])[0][0][0].text.split(' ')
             regions += [{'region' : int(lexemes[0]),
-                         'border' : [map(float, coordinate[:-2].split(',')) for coordinate in coordinates]}]
+                         'border' : [map(float, coordinate[:-2].split(',')[::-1]) for coordinate in coordinates]}]
     
     return regions
 
@@ -29,14 +29,14 @@ def parse_park_data(file_name):
 
             new_park = {}
             new_park['name'] = columns[5][1:-1]
-            new_park['coordinate'] = [float(num) for num in columns[11:13]]
+            new_park['coordinate'] = [float(num) for num in columns[11:13]][::-1]
             # TODO: Change to the correct one
             new_park['type'] = 'green'
             new_park['subtype'] = 'park'
             
             polygons = re.findall(r'\(([^()]+)\)', columns[10])
             coordinates = [[[float(number)
-                             for number in coordinate.split()]
+                             for number in coordinate.split()][::-1]
                             for coordinate in polygon.split(',')]
                            for polygon in polygons]
 
@@ -57,7 +57,7 @@ def parse_sport_fields_data(file_name):
             new_field['name'] = columns[3][1:-1]
             new_field['type'] = 'sport'
             new_field['subtype'] = columns[4][1:-1]
-            new_field['coordinate'] = [float(num) for num in columns[13:15]]
+            new_field['coordinate'] = [float(num) for num in columns[13:15]][::-1]
             # TODO: We have addresses here, map to regions with it
 
             sport_fields += [new_field]
