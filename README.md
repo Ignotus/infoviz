@@ -16,6 +16,9 @@ After cloning the project run following commands in your project folder:
 ```
 mkvirtualenv --no-site-packages --distribute infoviz-project
 pip install -r requirements.txt
+pushd data
+unzip "*.zip"
+popd
 ```
 
 In the case if your system cannot find mkvirtualenv do this command first:
