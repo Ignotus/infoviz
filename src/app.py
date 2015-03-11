@@ -3,7 +3,7 @@ from random import uniform
 
 from core.configuration import init
 import core.parser as parser
-
+import core.data_manip as data_manip
 
 # Import blueprint modules
 route_modules = ['data', 'citymap']
@@ -32,6 +32,13 @@ for i in range(len(region_info)):
     region_info[i]['relaxation_score'] = uniform(0, 1)
     region_info[i]['spiritual_score'] = uniform(0, 1)
     region_info[i]['activity_score'] =uniform(0, 1)
+
+park_data = parser.parse_park_data('../data/green-areas-and-parks.csv')
+
+park_data = data_manip.add_postcode_for_places(region_info, park_data)
+
+#print(park_data)
+
 construct_data(region_info = region_info)
 construct_citymap()
 

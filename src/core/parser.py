@@ -1,7 +1,5 @@
 import re
 import xml.etree.ElementTree as ET
-import numpy as np
-import matplotlib.path as mplPath
 
 def parse_region_data(file_name):
     # [{'region' : id, 'border' : [[x1, y1], [x2, y2], ..]}]
@@ -31,7 +29,7 @@ def parse_park_data(file_name):
 
             new_park = {}
             new_park['name'] = columns[5]
-            new_park['coordinate'] = [columns[11:13]]
+            new_park['coordinate'] = columns[11:13]
             
             polygons = re.findall(r'\(([^()]+)\)', columns[10])
             coordinates = [[[float(number)
