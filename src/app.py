@@ -34,11 +34,14 @@ for i in range(len(region_info)):
     region_info[i]['activity_score'] =uniform(0, 1)
 
 park_data = parser.parse_park_data('../data/green-areas-and-parks.csv')
-
 park_data = data_manip.add_postcode_for_places(region_info, park_data)
 
 sport_data = parser.parse_sport_fields_data('../data/open-sport-fields.csv')
 sport_data = data_manip.add_postcode_for_places(region_info, sport_data)
+
+# not done yet
+#function_data = parser.parse_building_function_data('../data/FUNCTIEKAART_region.dbf')
+#function_data = 
 
 places_data = park_data + sport_data
 

@@ -1,0 +1,207 @@
+BEDRIJVEN
+
+   Bedrijven
+B1.01 - Bedrijf
+B1.02 - Landbouwbedrijf - Veeteeltbedrijf
+B1.03 - Bedrijf in/met kassen
+
+   Overheidsbedrijven
+B2.01 - Stadsdeelwerf - Onderhoud - Reiniging - Afvalverwerking - Waterzuivering
+B2.02 - Remise - Werkplaats
+B2.03 - Brandweer
+B2.04 - Marine en Marechaussee
+
+KANTOREN
+
+   Kantoren
+K1.01 - Kantoor
+
+   Overheidskantoren
+K2.01 - Stadhuis - Stadsdeelkantoor
+K2.02 - Gemeentelijk kantoor
+K2.03 - Politie
+K2.04 - Consulaat - Ambassade
+K2.05 - Gerechtshof - Rechtbank
+K2.06 - Wacht- en bedieningshuisjes
+
+DETAILHANDEL
+
+   Detailhandel
+D1.01 - Winkelcomplex met meerdere verdiepingen
+D1.02 - Winkel - vaker/veel voorkomend in Nederland
+D1.03 - Supermarkt van grote keten
+D1.04 - Brood - Vlees - Vis - Groente - Kaas - Buurtsuper
+D1.05 - Smartshop - Growshop
+D1.06 - Sexshop
+D1.07 - Benzinestation
+D1.08 - Benzinestation met LPG-verkoop
+D1.09 - Showroom auto-boot-caravan - Autoverhuur
+D1.10 - Winkel - overig
+D1.14 - Minisupermarkt
+D1.15 - Souvenirshop - Headshop
+D1.16 - Slijterij - Wijnhandel
+
+   Consumentendienstverlening
+D2.01 - Apotheek
+D2.02 - Postkantoor - Bankfiliaal
+D2.03 - Geldautomaat
+D2.04 - Geldwisselkantoor
+D2.05 - Belcenter - Internet-ruimte
+D2.06 - Videotheek
+D2.07 - Overige handel in diensten
+D2.08 - Openbaar toilet
+D2.09 - Tattooshop - Piercings
+
+HORECA
+
+   Overnachten
+H1.01 - Hotel - Pension - Guesthouse
+H1.02 - Ronald McDonaldhuis - Gastenverblijf
+
+   Eten - Drinken - Dansen
+H2.01 - Restaurant
+H2.02 - Café - Bar
+H2.03 - Café met eetgelegenheid
+H2.04 - Afhaalzaak - Snelle hap of dronk
+H2.05 - Koffiehuis - Theehuis (allochtoon)
+H2.06 - Discotheek - Dancing
+H2.07 - Coffeeshop
+H2.08 - Mensa
+H2.09 - Kookschool - Kookclub - Wijnproeverij
+H2.10 - Partycentrum - Feestzalen
+H2.11 - Waterpijpcafé - Shishalounge
+
+MAATSCHAPPELIJK
+
+   Zorginstellingen met nachtverblijf
+M1.01 - Ziekenhuis
+M1.02 - Revalidatiecentrum
+M1.03 - Verpleeghuis - Verzorginghuis
+M1.04 - Psychiatrische kliniek - Crisisnachtopvang
+M1.05 - Nachtverblijf voor dak- en thuislozen
+M1.06 - Overige woonzorgcomplexen
+M1.07 - Dierenpension - Dierenasiel
+M1.08 - Asielzoekerscentrum
+M1.09 - Gevangenis - Uitzetcentrum
+
+   Gezondheidszorg zonder nachtverblijf
+M2.01 - Huisarts
+M2.02 - Tandarts
+M2.03 - Fysiotherapie - Mensendieck - Ergotherapie
+M2.04 - Gezondheidscentrum
+M2.06 - Ouder-kind-centrum - Consultatiebureau - Verloskunde
+M2.07 - Dierenarts - Dierenkliniek
+M2.08 - Overige (poliklinische) centra voor behandeling en onderzoek
+
+   Dagopvang en servicepunten
+M3.01 - Dagopvang voor gehandicapten - Medisch kinderdagverblijf
+M3.02 - Inloopvoorziening en dagbestedingscentrum voor dak- en thuislozen
+M3.03 - Ontmoetingsruimte voor ouderen - Dienstencentrum extramurale zorg
+M3.04 - Servicepunt zorg, begeleiding, hulp, buurtwerk, wijkopbouw
+
+   Kinderopvang, onderwijs en studie
+M4.01 - Kinderopvang
+M4.02 - Basisschool
+M4.03 - Voortgezet onderwijs
+M4.04 - Hogeschool en Universiteit
+M4.05 - School voor speciaal onderwijs
+M4.06 - Cursusruimten voor particulier- en bedrijfsonderwijs - Autorijschool
+M4.07 - Schoolwerktuin
+M4.08 - Documentatiecentrum - Archief - Cultureel instituut - Studiezaal - Speciale collecties
+
+   Religie
+M5.01 - Kerk
+M5.02 - Moskee
+M5.03 - Synagoge
+M5.04 - Overige reliplekken - Pastorie
+
+   Uitvaart
+M6.01 - Begraafplaats
+M6.02 - Begraafplaats met crematorium
+M6.03 - Uitvaartcentrum zonder begraafplaats
+M6.04 - Dierenuitvaartcentrum
+
+VRIJETIJD
+
+   Sport
+V1.01 - Stadion
+V1.02 - Sportvelden - Kleinschalige sportveldbebouwing
+V1.03 - Sporthal - Sporthallencomplex
+V1.04 - Sportzaal
+V1.05 - Gymnastieklokaal
+V1.06 - Zwembad
+V1.07 - IJsbaan
+V1.08 - Tennisaccommodatie
+V1.09 - Atletiek- of wielerbaan
+V1.10 - Fitness-centrum - Yogaruimte - Niet-gespecialiseerde sportschool
+V1.11 - Sportruimte gespecialiseerd
+V1.12 - Roeiverenigingsgebouw
+V1.13 - Golfterrein
+V1.14 - Manege
+
+   Kunst en cultuur
+V2.01 - Openbare bibliotheek
+V2.02 - Theater - Muziekpodium - Evenementenhal
+V2.03 - Bioscoop - Filmhuis
+V2.04 - Museum - Toeristentrekker
+V2.05 - Kunstuitleen - Artotheek
+V2.06 - Galerie voor beeldende kunst(verkoop)
+V2.07 - Broedplaats - Atelier
+V2.08 - Kunstveiling
+V2.09 - Creativiteitscentrum - Muziek-dans-balletschool - Kunst- en cultuureducatie - Oefenruimte
+
+   Ontspanning en vermaak
+V3.01 - Dierentuin
+V3.02 - Plantentuin - Hortus - Natuurtuin
+V3.03 - Kinderboerderij
+V3.04 - Automatenhal - Bookmakerspand - Casino
+V3.05 - Badhuis - Hamam
+V3.06 - Sauna
+V3.07 - Bordeel - Raamprostitutie - Sexclub - Sexbioscoop
+V3.08 - Overige accommodaties en terreinen voor ontspanning en vermaak
+V3.09 - Opstappunt rondvaartboot, waterfietsen, fluisterboten
+V3.10 - Massagesalon
+
+
+   Ontmoeting en activiteiten
+V4.01 - Buurthuis - Algemeen activiteiten- en ontmoetingscentrum
+V4.02 - Speeltuin - Jeugdwerkterrein - Scouting
+V4.03 - Kinderclub - Binnenspeeltuin
+V4.04 - Jongerencentrum - Meidencentrum - Tienercentrum
+V4.05 - Studentenvereniging - Studentensociëteit
+V4.06 - Ontmoetingsruimte voor vrouwen, etnische groeperingen, homo`s, lesbo`s
+V4.07 - Sociëteit - Genootschap - Zakenclub - Hobby-vereniging voor volwassenen
+
+
+   Besloten recreatie
+V5.01 - Volkstuinpark
+V5.02 - Camping
+V5.03 - Jachthaven
+
+
+
+PARKEREN EN OPENBAAR VERVOER
+
+
+   Parkeren
+P1.01 - Parkeergarage openbaar toegankelijk
+P1.02 - Parkeergarage voor particulieren of bedrijf
+P1.03 - Fietsenstalling
+
+
+   Openbaar vervoer
+P2.01 - Treinstation
+P2.02 - Metrostation
+P2.03 - Trein- en metrostation
+P2.04 - Passagiersterminal - Eurolines
+P2.05 - Tramhalte
+P2.06 - Veerdienst opstapplaats
+
+
+
+OPSLAG EN ONDUIDELIJK
+
+
+   Opslag en onduidelijk
+X1.01 - Onduidelijke functie - Zelfstandige opslag - Leegstand zonder bestemming
+X1.02 - Nutsgebouw zonder werkzame personen
