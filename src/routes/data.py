@@ -9,7 +9,7 @@ def construct_data(region_info, places_data):
     # Handles /data path. Open http://127.0.0.1:5000/data to see results
     @data.route('/')
     def data_main():
-        return '{text: \'hello world\'}'
+        return 'Khto ne skache toi...'
 
     @data.route('/regions')
     def data_regions():
