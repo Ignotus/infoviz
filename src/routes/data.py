@@ -4,7 +4,7 @@ from flask import Blueprint, jsonify
 data = Blueprint('data', __name__, url_prefix='/data')
 
 def construct_data(region_info, places_data):
-    supported_types = ['green']
+    supported_types = ['green', 'sport']
 
     # Handles /data path. Open http://127.0.0.1:5000/data to see results
     @data.route('/')

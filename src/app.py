@@ -37,10 +37,9 @@ park_data = parser.parse_park_data('../data/green-areas-and-parks.csv')
 
 park_data = data_manip.add_postcode_for_places(region_info, park_data)
 
-for i in range(len(park_data)):
-    park_data[i]['type'] = 'green'
+sport_data = parser.parse_sport_fields_data('../data/open-sport-fields.csv')
 
-places_data = park_data
+places_data = park_data + sport_data
 
 construct_data(region_info = region_info, places_data = places_data)
 construct_citymap()

@@ -29,7 +29,10 @@ def parse_park_data(file_name):
 
             new_park = {}
             new_park['name'] = columns[5][1:-1]
-            new_park['coordinate'] = columns[11:13]
+            new_park['coordinate'] = [float(num) for num in columns[11:13]]
+            # TODO: Change to the correct one
+            new_park['type'] = 'green'
+            new_park['subtype'] = 'park'
             
             polygons = re.findall(r'\(([^()]+)\)', columns[10])
             coordinates = [[[float(number)
@@ -40,3 +43,24 @@ def parse_park_data(file_name):
             new_park['borders'] = coordinates
             parks += [new_park]
     return parks
+
+def parse_sport_fields_data(file_name):
+    sport_fields = []
+    with open(file_name, 'r') as f:
+        f.readline()
+        for line in f:
+            columns = line.split(';')
+            if len(columns) < 15:
+                continue
+
+            new_field = {}
+            new_field['name'] = columns[3][1:-1]
+            new_field['type'] = 'sport'
+            new_field['subtype'] = columns[4][1:-1]
+            new_field['coordinate'] = [float(num) for num in columns[13:15]]
+            # TODO: We have addresses here, map to regions with it
+
+            sport_fields += [new_field]
+
+    return sport_fields
+

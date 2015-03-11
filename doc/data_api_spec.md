@@ -28,6 +28,7 @@ Returns all available objects in Amsterdam:
 - name
 - region
 - type
+- subtype
 
 Example:
 
