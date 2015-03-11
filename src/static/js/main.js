@@ -10,12 +10,30 @@ L.mapbox.accessToken = 'pk.eyJ1IjoieGlhb2xpIiwiYSI6IkhpWkZhZFkifQ.RgWs4kq33jfD3d
 var map = L.mapbox.map('map', 'examples.map-i86nkdio')
 	    .setView([52.3648367,4.9151507], 13);
 
+var clicked_regions = [];
+
 $.ajax({
     url: '/data/regions',
     dataType: 'json',
     success: function load(d) {
         d.results.forEach(function(e) {
-            L.polygon(e.border).addTo(map);
+            var polygon = L.polygon(e.border)
+                .bindPopup(e.region + '')
+                .setStyle({fillColor: '#66A3FF'})
+                .addTo(map);
+
+            polygon.on('click', function(e) {
+                if (clicked_regions.length > 0) {
+                    clicked_regions.forEach(function(target) {
+                        target.setStyle({fillColor: '#66A3FF'});
+                    });
+
+                    clicked_regions = [];
+                }
+
+                clicked_regions.push(e.target);
+                e.target.setStyle({fillColor: '#66FF99'});
+            });
         });
     }
 });
@@ -44,7 +62,6 @@ var showHideBoard = function(){
     }else{
         $('.board').animate({"margin-right": '+=300'});
     }
-    console.log(flag);
     flag = flag?0:1;
 }
  
