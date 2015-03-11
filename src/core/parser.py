@@ -1,5 +1,6 @@
 import re
 import xml.etree.ElementTree as ET
+import dbf
 
 def parse_region_data(file_name):
     # [{'region' : id, 'border' : [[x1, y1], [x2, y2], ..]}]
@@ -43,6 +44,21 @@ def parse_park_data(file_name):
             new_park['borders'] = coordinates
             parks += [new_park]
     return parks
+
+def parse_building_function_data(file_name):
+    db = dbf.Table(file_name)
+    db.open()
+    db_entries = list()
+    for entry in db:
+	info = {}
+	info['streetname'] = entry['straatnaam']
+	info['housenumber'] = entry['huisnummer']
+	info['functioncode'] = entry['klasse3_id']
+	info['functiondescription'] = entry['klasse3']
+	info['neighbourhood'] = entry['buurt']
+	db_entries += [info]
+    db.close()
+    return db_entries
 
 def parse_sport_fields_data(file_name):
     sport_fields = []
