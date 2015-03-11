@@ -3,126 +3,37 @@ from flask import Blueprint, jsonify
 # Registers a blueprint with a name 'data' and prefix '/data'
 data = Blueprint('data', __name__, url_prefix='/data')
 
-def construct_data(region_info):
+def construct_data(region_info, places_data):
+    supported_types = ['green']
+
     # Handles /data path. Open http://127.0.0.1:5000/data to see results
     @data.route('/')
     def data_main():
         return '{text: \'hello world\'}'
 
-    # Handles /data/<something>. Open http://127.0.0.1:5000/data/blahblah
-    # to see results.
-    # in this case argument <id> is passed to the variable id of the function.
-    @data.route('/<id>')
-    def data_request(id):
-        return '{text: \'hello world,' + id + '\'}'
-
     @data.route('/regions')
     def data_regions():
-        return jsonif y(results=region_info)
+        return jsonify(results=region_info)
 
     @data.route('/objects/types')
     def data_object_types():
-        types = ['green']
-        return jsonify(results=types)
+        return jsonify(results=supported_types)
 
-    @data.route('/objects/<region>')
-    def data_region_objects(region):
-        objects = [{'name' : 'Amstelpark',
-                    'type' : 'park',
-                    'coordinates': [4.894538,52.3292545],
-                    'borders' : [[[4.890624, 52.328765],
-                                  [4.890614, 52.332059],
-                                  [4.890718, 52.332058],
-                                  [4.890718, 52.332102],
-                                  [4.890786, 52.332102],
-                                  [4.890786, 52.332184],
-                                  [4.890857, 52.332184],
-                                  [4.890857, 52.332258],
-                                  [4.890785, 52.332257],
-                                  [4.890785, 52.332339],
-                                  [4.890718, 52.33234],
-                                  [4.890717, 52.332382],
-                                  [4.890615, 52.332382],
-                                  [4.890604, 52.333702],
-                                  [4.890655, 52.333739],
-                                  [4.890655, 52.333779],
-                                  [4.891993, 52.333787]],
-                                 [[4.893496, 52.324424],
-                                  [4.893496, 52.324426],
-                                  [4.89351, 52.324428],
-                                  [4.893496, 52.324424]]]},
-                   {'name' : 'Amstelpark-2',
-                    'type' : 'relaxation',
-                    'coordinates': [4.894538,52.3292545],
-                    'borders' : [[[4.890624, 52.328765],
-                                  [4.890614, 52.332059],
-                                  [4.890718, 52.332058],
-                                  [4.890718, 52.332102],
-                                  [4.890786, 52.332102],
-                                  [4.890786, 52.332184],
-                                  [4.890857, 52.332184],
-                                  [4.890857, 52.332258],
-                                  [4.890785, 52.332257],
-                                  [4.890785, 52.332339],
-                                  [4.890718, 52.33234],
-                                  [4.890717, 52.332382],
-                                  [4.890615, 52.332382],
-                                  [4.890604, 52.333702],
-                                  [4.890655, 52.333739],
-                                  [4.890655, 52.333779],
-                                  [4.891993, 52.333787]],
-                                 [[4.893496, 52.324424],
-                                  [4.893496, 52.324426],
-                                  [4.89351, 52.324428],
-                                  [4.893496, 52.324424]]]}]
+    @data.route('/objects/all')
+    def data_object_all():
+        return jsonify(results=places_data)
+
+    @data.route('/objects/by_type/<object_type>')
+    def data_objects_by_type(object_type):
+        objects = [place for place in places_data if place['type'] == object_type]
         return jsonify(results=objects)
 
-    @data.route('/objects/<region>/<object_type>')
+    @data.route('/objects/by_region/<int:region>')
+    def data_region_objects(region):
+        objects = [place for place in places_data if place['region'] == region]
+        return jsonify(results=objects)
+
+    @data.route('/objects/by_region/<int:region>/by_type/<object_type>')
     def data_region_objects_by_type(region, object_type):
-        objects = [{'name' : 'Amstelpark-3',
-                    'coordinates': [4.894538,52.3292545],
-                    'borders' : [[[4.890624, 52.328765],
-                                  [4.890614, 52.332059],
-                                  [4.890718, 52.332058],
-                                  [4.890718, 52.332102],
-                                  [4.890786, 52.332102],
-                                  [4.890786, 52.332184],
-                                  [4.890857, 52.332184],
-                                  [4.890857, 52.332258],
-                                  [4.890785, 52.332257],
-                                  [4.890785, 52.332339],
-                                  [4.890718, 52.33234],
-                                  [4.890717, 52.332382],
-                                  [4.890615, 52.332382],
-                                  [4.890604, 52.333702],
-                                  [4.890655, 52.333739],
-                                  [4.890655, 52.333779],
-                                  [4.891993, 52.333787]],
-                                 [[4.893496, 52.324424],
-                                  [4.893496, 52.324426],
-                                  [4.89351, 52.324428],
-                                  [4.893496, 52.324424]]]},
-                   {'name' : 'Amstelpark-4',
-                    'coordinates': [4.894538,52.3292545],
-                    'borders' : [[[4.890624, 52.328765],
-                                  [4.890614, 52.332059],
-                                  [4.890718, 52.332058],
-                                  [4.890718, 52.332102],
-                                  [4.890786, 52.332102],
-                                  [4.890786, 52.332184],
-                                  [4.890857, 52.332184],
-                                  [4.890857, 52.332258],
-                                  [4.890785, 52.332257],
-                                  [4.890785, 52.332339],
-                                  [4.890718, 52.33234],
-                                  [4.890717, 52.332382],
-                                  [4.890615, 52.332382],
-                                  [4.890604, 52.333702],
-                                  [4.890655, 52.333739],
-                                  [4.890655, 52.333779],
-                                  [4.891993, 52.333787]],
-                                 [[4.893496, 52.324424],
-                                  [4.893496, 52.324426],
-                                  [4.89351, 52.324428],
-                                  [4.893496, 52.324424]]]}]
+        objects = [place for place in places_data if place['region'] == region and place['type'] == object_type]
         return jsonify(results=objects)

@@ -37,9 +37,12 @@ park_data = parser.parse_park_data('../data/green-areas-and-parks.csv')
 
 park_data = data_manip.add_postcode_for_places(region_info, park_data)
 
-#print(park_data)
+for i in range(len(park_data)):
+    park_data[i]['type'] = 'green'
 
-construct_data(region_info = region_info)
+places_data = park_data
+
+construct_data(region_info = region_info, places_data = places_data)
 construct_citymap()
 
 # Registers flask modules (called Blueprints)
