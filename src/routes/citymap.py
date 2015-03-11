@@ -10,4 +10,4 @@ def construct_citymap():
     def citymap_main():
         # Renders citymap.html and pass an argument id to the render
         # in the citymap.html you can read it and process it
-        return render_template('citymap.html', id=1)
+        return render_template('citymap.html')
