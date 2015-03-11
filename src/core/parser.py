@@ -28,7 +28,7 @@ def parse_park_data(file_name):
                 continue
 
             new_park = {}
-            new_park['name'] = columns[5]
+            new_park['name'] = columns[5][1:-1]
             new_park['coordinate'] = columns[11:13]
             
             polygons = re.findall(r'\(([^()]+)\)', columns[10])
