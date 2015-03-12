@@ -23,7 +23,7 @@ def construct_data(region_info, places_data):
         places = [place for place in places_data if place['region'] == region]
 
         region_data['place_frequencies'] =\
-            {t : len([place for place in places if place['type'] == t]) for t in supported_types}
+            [{'key': t, 'value': len([place for place in places if place['type'] == t])} for t in supported_types]
 
         return jsonify(results=region_data)
             

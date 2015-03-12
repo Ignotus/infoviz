@@ -29,7 +29,7 @@ p,h1,h2,h3,h4,h5,h6{
 
 .board{
 	display: block;
-	width: 260px;
+	width: 20px;
 	height: 100%;
 	right: 0px;
 	overflow: hidden;
