@@ -1,4 +1,6 @@
 from flask import Flask, render_template, redirect, url_for
+from flask_assets import Environment, Bundle
+
 from random import uniform
 
 from core.configuration import init
@@ -51,6 +53,14 @@ construct_citymap()
 # Registers flask modules (called Blueprints)
 app.register_blueprint(data)
 app.register_blueprint(citymap)
+
+assets = Environment(app)
+
+js_main = Bundle("js/main.js", "js/main.js",
+                 filters="jsmin", output="gen/min.js")
+
+
+assets.register("js_main", js_main)
 
 if __name__ == '__main__':
     # Run the app
