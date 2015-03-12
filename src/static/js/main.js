@@ -11,6 +11,37 @@ var map = L.mapbox.map('map', 'examples.map-i86nkdio')
 
 var clicked_regions = [];
 
+var polygons = {};
+
+var rainbow = new Rainbow(); 
+
+function showMapStat(category_id) {
+    console.log('category:' + category_id);
+    $.ajax({
+        url: '/data/regions/stat',
+        dataType: 'json',
+        success: function load(d) {
+            var max = 0;
+            console.log('length: ' + d.results.length);
+            d.results.forEach(function(e) {
+                var val = e.place_frequencies[category_id].value;
+                max = Math.max(val, max);
+            });
+            
+            rainbow.setNumberRange(0, max);
+            rainbow.setSpectrum('red', 'green');
+
+            d.results.forEach(function(e) {
+                var hexColour = rainbow.colourAt(e.place_frequencies[category_id].value);
+                var stringColor = '#' + hexColour;
+                polygons[e.region].setStyle({fillColor: stringColor,
+                                             color: stringColor,
+                                             fillOpacity: 0.5,
+                                             opacity: 0.5});
+            });
+        }
+    });
+}
 
 function plotRegionStat(region_id) {
     var margin = {top: 60, right: 40, bottom: 30, left: 40},
@@ -26,7 +57,7 @@ function plotRegionStat(region_id) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    d3.json("/data/regions/" + region_id, function(error, json_data) {
+    d3.json("/data/regions/stat/" + region_id, function(error, json_data) {
         var data = d3.nest()
             .entries(json_data.results.place_frequencies);
 
@@ -40,7 +71,12 @@ function plotRegionStat(region_id) {
             .attr("x", function(d) { return x(d.key); })
             .attr("width", x.rangeBand())
             .attr("y", function(d) { return y(Math.max(0, d.value)); })
-            .attr("height", function(d) { return Math.abs(y(d.value) - y(0)); });
+            .attr("height", function(d) { return Math.abs(y(d.value) - y(0)); })
+            .on('click', function(d, i){
+                $('.board').animate({"width": '20'});
+                flag = 0;
+                showMapStat(i);
+            });
 
         svg.append("g")
             .attr("class", "x axis")
@@ -78,6 +114,8 @@ $.ajax({
                 .setStyle({fillColor: '#66A3FF'})
                 .addTo(map);
 
+            polygons[e.region] = polygon;
+
             polygon.on('click', function(e1) {
                 if (clicked_regions.length > 0) {
                     clicked_regions.forEach(function(target) {
@@ -103,19 +141,6 @@ $.ajax({
     }
 });
 
-var marker = L.marker([52.3648367,4.9151507], {
-	      icon: L.mapbox.marker.icon({
-	        'marker-color': '#9c89cc'
-	      })
-	    })
-	    .bindPopup('<p>Halloooo~</p>')
-	    .addTo(map);
- 
-//add a function to the element on map...
-marker.on('click', function(e) {
-	showHideBoard();
-});
-
 
 //////////////////////////////////////////////
 
@@ -127,7 +152,7 @@ var showHideBoard = function(){
     }else{
         $('.board').animate({"width": '20'});
     }
-    flag = flag?0:1;
+    flag = flag ? 0 : 1;
 }
  
 $(".hide-board").click(function() {

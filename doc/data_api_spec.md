@@ -11,13 +11,21 @@ Example:
 
 http://127.0.0.1:5000/data/regions
 
-## /data/regions/< region_id >
+## /data/regions/stat
 
-Shows statatistic for the current region
+Show statistic for all regions
 
 Example:
 
-http://127.0.0.1:5000/data/regions/1063
+http://127.0.0.1:5000/data/regions/stat
+
+## /data/regions/stat/< region_id >
+
+Shows statatistic for the current region.
+
+Example:
+
+http://127.0.0.1:5000/data/regions/stat/1063
 
 ## /data/objects/types
 

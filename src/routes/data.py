@@ -16,7 +16,21 @@ def construct_data(region_info, places_data):
     def data_regions():
         return jsonify(results=region_info)
 
-    @data.route('/regions/<int:region>')
+    @data.route('/regions/stat')
+    def data_region_stat():
+        stat = []
+        for region in region_info:
+            new_node = {'region': region['region']}
+            places = [place for place in places_data if place['region'] == region['region']]
+
+            new_node['place_frequencies'] =\
+                [{'key': t, 'value': len([place for place in places if place['type'] == t])} for t in supported_types]
+
+            stat += [new_node]
+
+        return jsonify(results=stat)
+
+    @data.route('/regions/stat/<int:region>')
     def data_region(region):
         region_data = {}
 
