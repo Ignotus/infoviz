@@ -1,4 +1,4 @@
-body{
+body {
 	overflow: hidden;
   	background: #FFF;
  	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
@@ -6,7 +6,8 @@ body{
 	padding: 0px; 
  
 }
-section{
+
+section {
 	background: #fff;
 	padding: 20px;
 	-webkit-border-radius: 10px; 
@@ -14,11 +15,8 @@ section{
 	border-radius: 10px;
 	min-width: 740px;
 }
-p,h1,h2,h3,h4,h5,h6{
-	 
-}
   
-#map{
+#map {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -27,7 +25,7 @@ p,h1,h2,h3,h4,h5,h6{
 	background: url();
 }
 
-.board{
+.board {
 	display: block;
 	width: 20px;
 	height: 100%;
@@ -39,5 +37,24 @@ p,h1,h2,h3,h4,h5,h6{
 	background: #FFF;
 	position: fixed;
 
+}
+
+.bar {
+	fill: steelblue;
+}
+
+.bar:hover {
+	fill: brown;
+}
+
+.axis {
+	font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
 }
  
