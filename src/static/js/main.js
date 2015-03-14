@@ -4,8 +4,12 @@
   
 flag = true;
 
+var captions = ["Regions", "Greens", "Sport"]
+var layer_type = ['green', 'sport']
+
 // ----------------  show map, please change here --------------- // 
 L.mapbox.accessToken = 'pk.eyJ1IjoieGlhb2xpIiwiYSI6IkhpWkZhZFkifQ.RgWs4kq33jfD3d46_TTd6g';
+
 var map = L.mapbox.map('map', 'examples.map-i86nkdio')
 	    .setView([52.3648367,4.9151507], 13);
 
@@ -17,7 +21,6 @@ var polygons_color = {};
 var rainbow = new Rainbow(); 
 
 function showMapStat(category_id) {
-    var captions = ["Regions", "Greens", "Sport"]
     $("span#layer-caption").html(captions[category_id + 1]);
 
     if (category_id == -1) {
@@ -26,6 +29,28 @@ function showMapStat(category_id) {
         }
         return;
     }
+
+    $.ajax({
+        url: '/data/regions',
+        dataType: 'json',
+        success: function load(d) {
+            var markers = L.markerClusterGroup();
+            d.results.forEach(function(e) {
+                $.ajax({
+                    url: '/data/objects/by_region/' + e.region + '/by_type/' + layer_type[category_id],
+                    dataType: 'json',
+                    success: function load(d) {
+                        d.results.forEach(function(e) {
+                            L.marker(e.coordinate)
+                                    .bindPopup(e.name + '<br/>' + e.subtype)
+                                    .addTo(markers);
+                        });
+                    }
+                });
+            });
+            markers.addTo(map);
+        }
+    });
     
     $.ajax({
         url: '/data/regions/stat',
