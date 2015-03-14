@@ -17,6 +17,9 @@ var polygons_color = {};
 var rainbow = new Rainbow(); 
 
 function showMapStat(category_id) {
+    var captions = ["Regions", "Greens", "Sport"]
+    $("span#layer-caption").html(captions[category_id + 1]);
+
     if (category_id == -1) {
         for (var key in polygons) {
             polygons[key].setStyle({fillColor: '#66A3FF', color: '#2c7fb8', opacity: 0.5, fillOpacity: 0.5});
@@ -182,12 +185,12 @@ $("#region-layer-switcher").click(function() {
 $("#sport-layer-switcher").click(function() {
     $("span#layer-caption").html("Sport");
     // TODO: Get these indexes from somewhere
-    showMapStat(0);
+    showMapStat(1);
 });
 
 $("#green-layer-switcher").click(function() {
     $("span#layer-caption").html("Green");
-    showMapStat(1);
+    showMapStat(0);
 });
 
 
