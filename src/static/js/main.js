@@ -29,7 +29,7 @@ function showMapStat(category_id) {
             });
             
             rainbow.setNumberRange(0, max);
-            rainbow.setSpectrum('red', 'green');
+            rainbow.setSpectrum('lightgreen', 'darkgreen');
 
             d.results.forEach(function(e) {
                 var hexColour = rainbow.colourAt(e.place_frequencies[category_id].value);
