@@ -2,7 +2,7 @@
 // Map API (mapbox.com) doc:
 // https://www.mapbox.com/mapbox.js/example/v1.0.0/clicks-in-popups/
   
-flag = 1;
+flag = true;
 
 // ----------------  show map, please change here --------------- // 
 L.mapbox.accessToken = 'pk.eyJ1IjoieGlhb2xpIiwiYSI6IkhpWkZhZFkifQ.RgWs4kq33jfD3d46_TTd6g';
@@ -74,7 +74,7 @@ function plotRegionStat(region_id) {
             .attr("height", function(d) { return Math.abs(y(d.value) - y(0)); })
             .on('click', function(d, i){
                 $('.board').animate({"width": '20'});
-                flag = 0;
+                flag = false;
                 showMapStat(i);
             });
 
@@ -126,13 +126,14 @@ $.ajax({
                 }
 
                 clicked_regions.push(e1.target);
+
                 e1.target.setStyle({fillColor: '#66FF99'});
-                if (flag == 1) {
+                if (flag) {
                     $('.board').animate({"width": '20'});
                 }
 
                 $('.board').animate({"width": '1000'});
-                flag = 1;
+                flag = true;
 
                 d3.select(".hist").select("svg").remove();
                 plotRegionStat(e.region);
@@ -152,12 +153,12 @@ var showHideBoard = function(){
     }else{
         $('.board').animate({"width": '20'});
     }
-    flag = flag ? 0 : 1;
+    flag = !flag;
 }
  
 $(".hide-board").click(function() {
     $('.board').animate({"width": '20'});
-    flag = 0;
+    flag = false;
 });
 
 
