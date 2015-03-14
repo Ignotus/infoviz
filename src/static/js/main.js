@@ -50,7 +50,7 @@ function showMapStat(category_id) {
                                                  opacity: 0.5});
                     polygons_color[e.region] = stringColor;
                 } else {
-                    polygons[e.region].setStyle({opacity: 0.1, fillOpacity: 0.2});
+                    polygons[e.region].setStyle({fillColor: '#66A3FF', color: '#2c7fb8', opacity: 0.1, fillOpacity: 0.2});
                 }
             });
         }
