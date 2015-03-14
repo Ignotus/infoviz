@@ -18,10 +18,18 @@ var clicked_regions = [];
 var polygons = {};
 var polygons_color = {};
 
+var markerss = [];
+
 var rainbow = new Rainbow(); 
 
 function showMapStat(category_id) {
     $("span#layer-caption").html(captions[category_id + 1]);
+
+    markerss.forEach(function(e) {
+        e.clearLayers();
+    });
+
+    markerss = [];
 
     if (category_id == -1) {
         for (var key in polygons) {
@@ -49,6 +57,7 @@ function showMapStat(category_id) {
                 });
             });
             markers.addTo(map);
+            markerss.push(markers);
         }
     });
     
