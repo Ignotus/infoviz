@@ -26,7 +26,7 @@ function showMapStat(category_id) {
     $("span#layer-caption").html(captions[category_id + 1]);
 
     markerss.forEach(function(e) {
-        map.removeLayers(e);
+        map.removeLayer(e);
     });
 
     markerss = [];
