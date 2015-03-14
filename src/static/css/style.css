@@ -44,7 +44,7 @@ section {
 }
 
 .bar:hover {
-	fill: brown;
+	fill: #fec44f;
 }
 
 .axis {

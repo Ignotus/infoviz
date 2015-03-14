@@ -12,6 +12,7 @@ var map = L.mapbox.map('map', 'examples.map-i86nkdio')
 var clicked_regions = [];
 
 var polygons = {};
+var polygons_color = {};
 
 var rainbow = new Rainbow(); 
 
@@ -32,12 +33,17 @@ function showMapStat(category_id) {
             rainbow.setSpectrum('lightgreen', 'darkgreen');
 
             d.results.forEach(function(e) {
-                var hexColour = rainbow.colourAt(e.place_frequencies[category_id].value);
-                var stringColor = '#' + hexColour;
-                polygons[e.region].setStyle({fillColor: stringColor,
-                                             color: stringColor,
-                                             fillOpacity: 0.5,
-                                             opacity: 0.5});
+                if (e.place_frequencies[category_id].value > 0.0001) {
+                    var hexColour = rainbow.colourAt(e.place_frequencies[category_id].value);
+                    var stringColor = '#' + hexColour;
+                    polygons[e.region].setStyle({fillColor: stringColor,
+                                                 color: stringColor,
+                                                 fillOpacity: 0.5,
+                                                 opacity: 0.5});
+                    polygons_color[e.region] = stringColor;
+                } else {
+                    polygons[e.region].setStyle({opacity: 0.1, fillOpacity: 0.2});
+                }
             });
         }
     });
@@ -115,11 +121,12 @@ $.ajax({
                 .addTo(map);
 
             polygons[e.region] = polygon;
+            polygons_color[e.region] = '#66A3FF';
 
             polygon.on('click', function(e1) {
                 if (clicked_regions.length > 0) {
                     clicked_regions.forEach(function(target) {
-                        target.setStyle({fillColor: '#66A3FF'});
+                        target.setStyle({fillColor: polygons_color[target]});
                     });
 
                     clicked_regions = [];
@@ -127,7 +134,7 @@ $.ajax({
 
                 clicked_regions.push(e1.target);
 
-                e1.target.setStyle({fillColor: '#66FF99'});
+                e1.target.setStyle({fillColor: '#fec44f'});
                 if (flag) {
                     $('.board').animate({"width": '20'});
                 }
