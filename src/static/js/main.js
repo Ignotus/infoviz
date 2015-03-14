@@ -17,13 +17,18 @@ var polygons_color = {};
 var rainbow = new Rainbow(); 
 
 function showMapStat(category_id) {
-    console.log('category:' + category_id);
+    if (category_id == -1) {
+        for (var key in polygons) {
+            polygons[key].setStyle({fillColor: '#66A3FF', color: '#2c7fb8', opacity: 0.5, fillOpacity: 0.5});
+        }
+        return;
+    }
+    
     $.ajax({
         url: '/data/regions/stat',
         dataType: 'json',
         success: function load(d) {
             var max = 0;
-            console.log('length: ' + d.results.length);
             d.results.forEach(function(e) {
                 var val = e.place_frequencies[category_id].value;
                 max = Math.max(val, max);
@@ -117,7 +122,7 @@ $.ajax({
         d.results.forEach(function(e) {
             var polygon = L.polygon(e.border)
                 .bindPopup(e.region + '')
-                .setStyle({fillColor: '#66A3FF'})
+                .setStyle({fillColor: '#66A3FF', color: '#2c7fb8', opacity: 0.5, fillOpacity: 0.5})
                 .addTo(map);
 
             polygons[e.region] = polygon;
@@ -167,5 +172,23 @@ $(".hide-board").click(function() {
     $('.board').animate({"width": '20'});
     flag = false;
 });
+
+// Больше говн^Wбыдлокода пзязя
+$("#region-layer-switcher").click(function() {
+    $("span#layer-caption").html("Regions");
+    showMapStat(-1);
+});
+
+$("#sport-layer-switcher").click(function() {
+    $("span#layer-caption").html("Sport");
+    // TODO: Get these indexes from somewhere
+    showMapStat(0);
+});
+
+$("#green-layer-switcher").click(function() {
+    $("span#layer-caption").html("Green");
+    showMapStat(1);
+});
+
 
 

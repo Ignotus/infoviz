@@ -2,9 +2,9 @@
 <html>
 <head>
 	<title></title>
- 
   <script src='https://code.jquery.com/jquery-1.11.0.min.js'></script>
-  	
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
   <!-- Connects a css file from the folder static/css/ -->
   <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
@@ -19,8 +19,20 @@
   <!-- You can print a variable id -->
   <!-- Hello world! {{id}} -->
 
+
+
 	<div id="map">
-  	<!-- add map ~ -->
+    <div class="btn-group map-layer-switcher">
+      <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <span id="layer-caption">Regions</span> <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#" id="region-layer-switcher">Regions</a></li>
+        <li class="divider"></li>
+        <li><a href="#" id="sport-layer-switcher">Sport</a></li>
+        <li><a href="#" id="green-layer-switcher">Greens</a></li>
+      </ul>
+    </div>
   </div>
  
 	<div class="board">
