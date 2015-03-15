@@ -6,3 +6,5 @@ jsmin
 numpy
 matplotlib
 dbf
+pyproj
+shapely

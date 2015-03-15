@@ -3,6 +3,16 @@ import xml.etree.ElementTree as ET
 import dbf
 import csv
 import codecs
+from pyproj import Proj
+from shapely.geometry import shape
+
+pa = Proj("+proj=aea +lat_1=52.16 +lat_2=52.25 +lat_0=52.2 +lon_0=4.74")
+
+def area(polygons):
+    lon, lat = zip(*polygons)
+    x, y = pa(lon, lat)
+    cop = {"type": "Polygon", "coordinates": [zip(x, y)]}
+    return shape(cop).area
 
 def parse_region_data(file_name):
     # [{'region' : id, 'border' : [[x1, y1], [x2, y2], ..]}]
@@ -16,8 +26,11 @@ def parse_region_data(file_name):
                 continue
 
             coordinates = ET.fromstring(lexemes[1])[0][0][0].text.split(' ')
+            borders = [map(float, coordinate[:-2].split(',')[::-1]) for coordinate in coordinates]
+
             regions += [{'region' : int(lexemes[0]),
-                         'border' : [map(float, coordinate[:-2].split(',')[::-1]) for coordinate in coordinates]}]
+                         'border' : borders,
+                         'area' : area(borders)}]
     
     return regions
 
@@ -36,6 +49,7 @@ def parse_park_data(file_name):
             # TODO: Change to the correct one
             new_park['type'] = 'green'
             new_park['subtype'] = 'park'
+            new_park['area'] = float(columns[9])
             
             polygons = re.findall(r'\(([^()]+)\)', columns[10])
             coordinates = [[[float(number)

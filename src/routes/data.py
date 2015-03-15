@@ -21,10 +21,9 @@ def construct_data(region_info, places_data):
         stat = []
         for region in region_info:
             new_node = {'region': region['region']}
-            places = [place for place in places_data if place['region'] == region['region']]
 
             new_node['place_frequencies'] =\
-                [{'key': t, 'value': len([place for place in places if place['type'] == t])} for t in supported_types]
+                [{'key': t, 'value': region[t]} for t in supported_types]
 
             stat += [new_node]
 

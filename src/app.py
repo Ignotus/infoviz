@@ -38,6 +38,19 @@ sport_data = data_manip.add_postcode_for_places(region_info, sport_data)
 
 places_data = park_data + sport_data
 
+def calc_green_stat(index):
+    park_area = sum([place['area'] for place in park_data if place['region'] == region_info[index]['region']])
+    return park_area / region_info[index]['area']
+
+def calc_sport_stat(index):
+    return (10 ** 5) *len([place for place in sport_data if place['region'] == region_info[index]['region']]) / region_info[index]['area']
+
+index = 0
+for region in region_info:
+    region_info[index]['sport'] = calc_sport_stat(index)
+    region_info[index]['green'] = calc_green_stat(index)
+    index += 1
+
 construct_data(region_info = region_info, places_data = places_data)
 construct_citymap()
 
