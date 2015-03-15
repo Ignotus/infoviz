@@ -25,15 +25,6 @@ def main():
 
 # Achtung! Run the app from the directory src to make it works
 region_info = parser.parse_region_data('../data/polygon-info.csv')
-for i in range(len(region_info)):
-    region_info[i]['leisure_score'] = uniform(0, 1)
-    region_info[i]['cultural_score'] = uniform(0, 1)
-    region_info[i]['green_score'] = uniform(0, 1)
-    region_info[i]['culinary_score'] = uniform(0, 1)
-    region_info[i]['sport_score'] = uniform(0, 1)
-    region_info[i]['relaxation_score'] = uniform(0, 1)
-    region_info[i]['spiritual_score'] = uniform(0, 1)
-    region_info[i]['activity_score'] =uniform(0, 1)
 
 park_data = parser.parse_park_data('../data/green-areas-and-parks.csv')
 park_data = data_manip.add_postcode_for_places(region_info, park_data)
