@@ -33,10 +33,14 @@ sport_data = parser.parse_sport_fields_data('../data/open-sport-fields.csv')
 sport_data = data_manip.add_postcode_for_places(region_info, sport_data)
 
 # not done yet
-#function_data = parser.parse_building_function_data('../data/FUNCTIEKAART_region.dbf')
-#function_data = 
+function_data = parser.parse_building_function_data('../data/FUNCTIEKAART_region.dbf')
+postcode_data = parser.parse_postcode_data('../data/postcode_NH.csv')
+category_mapping = parser.parse_category_mapping('../data/matching.csv')
+functional_dataset = data_manip.create_building_function_dataset(function_data, postcode_data, category_mapping)
 
 places_data = park_data + sport_data
+
+#print places_data
 
 def calc_green_stat(index):
     park_area = sum([place['area'] for place in park_data if place['region'] == region_info[index]['region']])
@@ -62,7 +66,6 @@ assets = Environment(app)
 
 js_main = Bundle("js/main.js", "js/main.js",
                  filters="jsmin", output="gen/min.js")
-
 
 assets.register("js_main", js_main)
 

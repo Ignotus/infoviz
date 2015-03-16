@@ -64,16 +64,17 @@ def parse_park_data(file_name):
 def parse_building_function_data(file_name):
     db = dbf.Table(file_name)
     db.open()
-    print db
+    #print db
     db_entries = list()
     for entry in db:
 	info = {}
 	info['id'] = entry['zaak_id']
+	info['name'] = entry['zaaknaam']
 	info['streetname'] = entry['straatnaam'].strip().lower()
 	info['housenumber'] = entry['huisnummer']
 	info['functioncode'] = entry['klasse3_id'].strip()
-	info['functiondescription'] = entry['klasse3'].strip()
-	info['neighbourhood'] = entry['buurt'].strip()
+	info['subtype'] = entry['klasse3'].strip()
+	#info['neighbourhood'] = entry['buurt'].strip()
 	db_entries += [info]
     db.close()
     return db_entries
@@ -88,14 +89,23 @@ def parse_postcode_data(file_name):
     with codecs.open(file_name, 'rb', "utf-8") as csvfile:
 	reader = csv.reader(utf_8_encoder(csvfile), delimiter=';', quotechar='"')
 	for row in reader:
-	    if row[9].strip() == 'Amsterdam' and row[8].strip() != "Postbus":
+	    if row[9].strip() in ['Amsterdam', 'Amsterdam Zuidoost', 'Amsterdam-Duivendrecht', 'Amstelveen'] and row[8].strip() != "Postbus":
 		info = {}
 		info['streetname'] = unicode(row[8], 'utf-8').strip().lower()
 		info['postcode'] = row[3]
 		info['minnumber'] = int(row[5])
 		info['maxnumber'] = int(row[6])
 		info['numberorder'] = row[7]
+		info['coordinates'] = [row[15:17]]
 		result += [info]
+    return result
+
+def parse_category_mapping(file_name):
+    result = {}
+    with open(file_name, 'rb') as csvfile:
+        reader = csv.reader(csvfile, delimiter=';')
+        for row in reader:
+            result[row[0]] = row[1]
     return result
 
 def parse_sport_fields_data(file_name):
