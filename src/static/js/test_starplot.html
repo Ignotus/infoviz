@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+<meta name="author" content="Floris de Bruin (5772583)">
+<title>D3 Assignment</title>
+    <style>
+        body {
+            width: 700px;
+            margin: auto;
+            font-family: Arial;
+            margin:40px 0,
+        }
+        .chart {
+            margin-bottom:40px
+        }
+        .star-title {
+            font-size: 14px;
+        }
+        .star-label {
+            font-size: 10pt;
+        }
+        .star-axis {
+            stroke: gray;
+            stroke-width = 1;
+            stroke-dasharray: 4 5;
+        }
+        .star-path {
+            stroke-width: 2px;
+            fill-opacity:0.4;
+        }
+        .star-interaction {
+            opacity:0;
+        }
+        .star-interaction-label {
+            font-size: 10pt;
+            text-anchor: middle;
+            dominant-baseline:central;
+        }
+    </style>
+</head>
+
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="starPlot.js"></script>
+<script src="starPlot2.js"></script>
+<script>
+    var margin = {
+        top: 60,
+        right: 50,
+        bottom: 20,
+        left: 50
+    };
+    
+    var width = 200 - margin.left - margin.right;
+    var width2 = (200 * 2) - margin.left - margin.right;
+    var height = 200 - margin.top - margin.bottom;
+    var height2 = (200 * 2) - margin.top - margin.bottom;
+    
+    var labelMargin = 20;
+    var colours = ['rgb(114,147,203)',
+                    'rgb(225,151,76)',
+                    'rgb(132,186,91)',
+                    'rgb(211,94,96)',
+                    'rgb(128,133,133)',
+                    'rgb(144,103,167)',
+                    'rgb(171,104,87)',
+                    'rgb(204,194,16)'];
+    
+    var propertiesList = [{
+            Green:7,
+            Sports:10,
+            Leisure:3,
+            Lust:8,
+            Misc:8,
+            Education:4,
+            Faith:9
+            },
+            {
+            Green:2,
+            Sports:4,
+            Leisure:6,
+            Lust:10,
+            Misc:4,
+            Education:2,
+            Faith:4
+            },
+            {
+            Green:5,
+            Sports:2,
+            Leisure:10,
+            Lust:6,
+            Misc:2,
+            Education:8,
+            Faith:7
+            }];
+    
+    scale = d3.scale.linear()
+        .domain([0,2])
+        .range([0,10])
+    
+    for (var i = 0; i < propertiesList.length; i++){
+        var svg = d3.select('body')
+                    .append("svg")
+                    .attr('class', 'chart')
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+        var star = starPlot()
+                    .width(width)
+                    .propertiesList([propertiesList[i]])
+                    .scales(scale)
+                    .colours([colours[i]])
+                    .title('1095')
+                    .margin(margin)
+                    .labelMargin(labelMargin)
+        var starG = svg.append('g')
+                        .call(star)
+                        
+        svg.selectAll('.star-interaction')
+            .on('mouseover', function(d) {
+                svg.selectAll('.star-label')
+                    .style('display', 'none')
+                svg.append('circle')
+                    .attr('class', 'interaction-circle')
+                    .attr('r', 4)
+                    .attr('cx', d.x)
+                    .attr('cy', d.y)
+                    .attr('fill', 'gray')
+                svg.append('text')
+                    .attr('class', 'star-interaction-label')
+                    .text(d.key + ":  " + d.value)
+                    .attr('x', d.textX)
+                    .attr('y', d.textY)
+            })
+            .on('mouseout', function(d) {
+                svg.selectAll('.star-label')
+                    .style('display', '')
+                svg.selectAll('.interaction-circle').remove()
+                svg.selectAll('.star-interaction-label').remove()
+            })
+    }
+    
+    var svg = d3.select('body')
+                .append("svg")
+                .attr('class', 'chart')
+                .attr("width", 2 * width2 + margin.left + margin.right)
+                .attr("height", 2 * height2 + margin.top + margin.bottom)
+    var star = starPlot()
+                .width(width2)
+                .propertiesList(propertiesList)
+                .scales(scale)
+                .colours(colours)
+                .title('1095')
+                .margin(margin)
+                .labelMargin(labelMargin)
+    var starG = svg.append('g')
+                    .call(star)
+                    
+    svg.selectAll('.star-interaction')
+        .on('mouseover', function(d) {
+            svg.selectAll('.star-label')
+                .style('display', 'none')
+            svg.append('circle')
+                .attr('class', 'interaction-circle')
+                .attr('r', 4)
+                .attr('cx', d.x)
+                .attr('cy', d.y)
+                .attr('fill', 'gray')
+            svg.append('text')
+                .attr('class', 'star-interaction-label')
+                .text(d.key + ":  " + d.value)
+                .attr('x', d.textX)
+                .attr('y', d.textY)
+        })
+        .on('mouseout', function(d) {
+            svg.selectAll('.star-label')
+                .style('display', '')
+            svg.selectAll('.interaction-circle').remove()
+            svg.selectAll('.star-interaction-label').remove()
+        })
+    /**
+    var svg = d3.select('body')
+        .append("svg")
+        .attr('class', 'chart')
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    var svg2 = d3.select('body')
+        .append("svg")
+        .attr('class', 'chart')
+        .attr("width", (width + margin.left + margin.right))
+        .attr("height", height + margin.top + margin.bottom)
+    var svg3 = d3.select('body')
+        .append("svg")
+        .attr('class', 'chart')
+        .attr("width", (width + margin.left + margin.right))
+        .attr("height", height + margin.top + margin.bottom)
+    var svg4 = d3.select('body')
+        .append("svg")
+        .attr('class', 'chart')
+        .attr("width", (width + margin.left + margin.right)*2)
+        .attr("height", (height + margin.top + margin.bottom)*2)
+        
+    var star = starPlot()
+        .width(width)
+        .propertiesList([propertiesList[0]])
+        .scales(scale)
+        .colours([colours[0]])
+        .title('1095')
+        .margin(margin)
+        .labelMargin(labelMargin)
+    
+    var star2 = starPlot()
+        .width(width)
+        .propertiesList([propertiesList[1]])
+        .scales(scale)
+        .colours([colours[1]])
+        .title('1092')
+        .margin(margin)
+        .labelMargin(labelMargin)
+    
+    
+    var star3 = starPlot()
+        .width(width)
+        .propertiesList([propertiesList[2]])
+        .scales(scale)
+        .colours([colours[2]])
+        .title('1013')
+        .margin(margin)
+        .labelMargin(labelMargin)
+    
+    var star4 = starPlot()
+        .width(width2)
+        .propertiesList(propertiesList)
+        .scales(scale)
+        .colours(colours)
+        .title('1095 & 1092 & 1013')
+        .margin(margin)
+        .labelMargin(labelMargin)
+    
+    var starG = svg.append('g')
+                .call(star)
+    var starG2 = svg2.append('g')
+                .call(star2)
+    
+    var starG3 = svg3.append('g')
+                .call(star3)
+    
+    var starG4 = svg4.append('g')
+                .call(star4)
+                                   
+    svg.selectAll('.star-interaction')
+        .on('mouseover', function(d) {
+            svg.selectAll('.star-label')
+                .style('display', 'none')
+            svg.append('circle')
+                .attr('class', 'interaction-circle')
+                .attr('r', 4)
+                .attr('cx', d.x)
+                .attr('cy', d.y)
+                .attr('fill', colours[0])
+            svg.append('text')
+                .attr('class', 'star-interaction-label')
+                .text(d.key + ":  " + d.value)
+                .attr('x', d.textX)
+                .attr('y', d.textY)
+        })
+        .on('mouseout', function(d) {
+            svg.selectAll('.star-label')
+                .style('display', '')
+            svg.selectAll('.interaction-circle').remove()
+            svg.selectAll('.star-interaction-label').remove()
+        })
+    **/
+</script>
+
+</body>
+
