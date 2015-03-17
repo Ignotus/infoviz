@@ -11,14 +11,29 @@ var layer_type = ['green', 'sport'];
 
 var layer_id = {
     'region' : -1,
-    'green': 0,
+    'green' : 0,
     'sport' : 1
 };
 
 var layer_captions = {}
+
+$.ajax({
+    url: add_host('/data/objects/types'),
+    dataType: 'json',
+    success: function load(d) {
+        layer_type = d.results;
+
+        for (var i = 0; i < layer_type.length; ++i) {
+            layer_id[layer_type[i]] = i;
+        }
+
+        for (var e in layer_type) {
+            layer_captions[layer_id[e]] = e;
+        };
+    }
+});
+
 layer_captions[layer_id['region']] = "Regions";
-layer_captions[layer_id['green']] = "Greens";
-layer_captions[layer_id['sport']] = "Sport";
 
 // ----------------  show map, please change here --------------- // 
 L.mapbox.accessToken = 'pk.eyJ1IjoieGlhb2xpIiwiYSI6IkhpWkZhZFkifQ.RgWs4kq33jfD3d46_TTd6g';
@@ -32,7 +47,7 @@ var polygons_color = {};
 
 var markerss = [];
 
-var rainbow = new Rainbow(); 
+var rainbow = new Rainbow();
 
 function showMapStat(category_id) {
     $("span#layer-caption").html(layer_captions[category_id]);
@@ -288,14 +303,15 @@ $.ajax({
 
                 d3.select(".hist").select("svg").select("chart").remove();
 
-                var data = [{
-                    Green: e.green,
-                    Sports: e.sport,
-                    Leisure: e.sport
-                }];
+                var data = {
+                };
 
-                console.log(data[0]['Green'] + ' ' + data[0]['Sports']);
-                plotRegionStat(data, ['' + e.region]);
+                layer_type.forEach(function(e2) {
+                    data[e2] = e[e2];
+                });
+
+                console.log(data);
+                plotRegionStat([data], ['' + e.region]);
             });
         });
     }
