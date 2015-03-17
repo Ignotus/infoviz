@@ -25,9 +25,17 @@ $.ajax({
             layer_id[layer_type[i]] = i;
         }
 
-        for (var e in layer_type) {
+        layer_type.forEach(function(e) {
             layer_captions[layer_id[e]] = e;
-        };
+
+            $(".dropdown-menu").html($(".dropdown-menu").html() +
+                    "<li><a href=\"#\" id=\"" + e + "-layer-switcher\">" + e +"</a></li>");
+
+            $(".dropdown-menu").on("click", "#" + e + "-layer-switcher", function() {
+                $("span#layer-caption").html(e);
+                showMapStat(layer_id[e]);
+            });
+        });
     }
 });
 
@@ -258,16 +266,4 @@ $("#region-layer-switcher").click(function() {
     $("span#layer-caption").html("Regions");
     showMapStat(layer_id['regions']);
 });
-
-$("#sport-layer-switcher").click(function() {
-    $("span#layer-caption").html("Sport");
-    showMapStat(layer_id['sport']);
-});
-
-$("#green-layer-switcher").click(function() {
-    $("span#layer-caption").html("Green");
-    showMapStat(layer_id['green']);
-});
-
-
 
