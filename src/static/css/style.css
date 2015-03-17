@@ -59,9 +59,38 @@ section {
 }
  
 
- .map-layer-switcher {
+.map-layer-switcher {
 	z-index: 1;
 	position: absolute;
   	top: 10px; right: 100px;
   	width: 150px;
-  }
+}
+
+### StarPlot
+
+.chart {
+    margin-bottom:40px
+}
+.star-title {
+    font-size: 14px;
+}
+.star-label {
+    font-size: 10pt;
+}
+.star-axis {
+    stroke: gray;
+    stroke-width = 1;
+    stroke-dasharray: 4 5;
+}
+.star-path {
+    stroke-width: 2px;
+    fill-opacity:0.4;
+}
+.star-interaction {
+    opacity:0;
+}
+.star-interaction-label {
+    font-size: 10pt;
+    text-anchor: middle;
+    dominant-baseline:central;
+}
