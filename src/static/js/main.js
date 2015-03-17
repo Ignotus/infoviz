@@ -177,8 +177,8 @@ function plotRegionStat(propertiesList, titleList) {
             }];
     */
     var scale = d3.scale.linear()
-        .domain([0,1])
-        .range([0,1])
+        .domain([0,100])
+        .range([0,100])
     
     for (var i = 0; i < propertiesList.length; i++){
         var svg = d3.select(".hist")

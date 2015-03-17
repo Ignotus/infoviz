@@ -17,7 +17,7 @@ starPlot = function() {
       origin = [radius, radius],
       radians,
       scale = d3.scale.linear()
-        .domain([0, 1])
+        .domain([0, 100])
         .range([0, radius])
 
     function chart(selection) {
