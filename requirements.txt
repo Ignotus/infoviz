@@ -1,6 +1,7 @@
 Flask
 Flask-WTF
 Flask-Assets
+flask-cors
 cssmin
 jsmin
 numpy
@@ -8,3 +9,4 @@ matplotlib
 dbf
 pyproj
 shapely
+unicodecsv

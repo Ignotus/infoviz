@@ -1,18 +1,30 @@
-// 
-// Map API (mapbox.com) doc:
-// https://www.mapbox.com/mapbox.js/example/v1.0.0/clicks-in-popups/
-  
+function add_host(path) {
+    if (!document.domain) {
+        return 'http://root.org.ua' + path;
+    }
+    return path;
+}
+
 flag = true;
 
-var captions = ["Regions", "Greens", "Sport"]
-var layer_type = ['green', 'sport']
+var layer_type = ['green', 'sport'];
+
+var layer_id = {
+    'region' : -1,
+    'green': 0,
+    'sport' : 1
+};
+
+var layer_captions = {}
+layer_captions[layer_id['region']] = "Regions";
+layer_captions[layer_id['green']] = "Greens";
+layer_captions[layer_id['sport']] = "Sport";
 
 // ----------------  show map, please change here --------------- // 
 L.mapbox.accessToken = 'pk.eyJ1IjoieGlhb2xpIiwiYSI6IkhpWkZhZFkifQ.RgWs4kq33jfD3d46_TTd6g';
 
-var map = L.mapbox.map('map', 'examples.map-i86nkdio')
-	    .setView([52.3648367,4.9151507], 13);
-
+var amsterdamCoordinates = [52.3648367,4.9151507];
+var map = L.mapbox.map('map', 'examples.map-i86nkdio').setView(amsterdamCoordinates, 13);
 var clicked_regions = [];
 
 var polygons = {};
@@ -23,7 +35,7 @@ var markerss = [];
 var rainbow = new Rainbow(); 
 
 function showMapStat(category_id) {
-    $("span#layer-caption").html(captions[category_id + 1]);
+    $("span#layer-caption").html(layer_captions[category_id]);
 
     markerss.forEach(function(e) {
         map.removeLayer(e);
@@ -32,20 +44,28 @@ function showMapStat(category_id) {
     markerss = [];
 
     if (category_id == -1) {
+        var style = {
+            fillColor: '#66A3FF',
+            color: '#2c7fb8',
+            opacity: 0.5,
+            fillOpacity: 0.5
+        };
+
         for (var key in polygons) {
-            polygons[key].setStyle({fillColor: '#66A3FF', color: '#2c7fb8', opacity: 0.5, fillOpacity: 0.5});
+            polygons[key].setStyle(style);
         }
         return;
     }
 
     $.ajax({
-        url: '/data/regions',
+        url: add_host('/data/regions'),
         dataType: 'json',
         success: function load(d) {
-            var markers = L.markerClusterGroup();
+            var markers = new L.MarkerClusterGroup();
             d.results.forEach(function(e) {
+                var path = '/data/objects/by_region/' + e.region + '/by_type/' + layer_type[category_id];
                 $.ajax({
-                    url: '/data/objects/by_region/' + e.region + '/by_type/' + layer_type[category_id],
+                    url: add_host(path),
                     dataType: 'json',
                     success: function load(d) {
                         d.results.forEach(function(e) {
@@ -62,7 +82,7 @@ function showMapStat(category_id) {
     });
     
     $.ajax({
-        url: '/data/regions/stat',
+        url: add_host('/data/regions/stat'),
         dataType: 'json',
         success: function load(d) {
             var max = 0;
@@ -74,92 +94,174 @@ function showMapStat(category_id) {
             rainbow.setNumberRange(0, max);
             rainbow.setSpectrum('lightgreen', 'darkgreen');
 
+            var emptyStyle = {
+                fillColor: '#66A3FF',
+                color: '#2c7fb8',
+                opacity: 0.1,
+                fillOpacity: 0.2
+            }
+
             d.results.forEach(function(e) {
                 if (e.place_frequencies[category_id].value > 0.0001) {
                     var hexColour = rainbow.colourAt(e.place_frequencies[category_id].value);
                     var stringColor = '#' + hexColour;
-                    polygons[e.region].setStyle({fillColor: stringColor,
-                                                 color: stringColor,
-                                                 fillOpacity: 0.5,
-                                                 opacity: 0.5});
+                    var notEmptyStyle = {
+                        fillColor: stringColor,
+                        color: stringColor,
+                        fillOpacity: 0.5,
+                        opacity: 0.5
+                    };
+
+                    polygons[e.region].setStyle(notEmptyStyle);
                     polygons_color[e.region] = stringColor;
                 } else {
-                    polygons[e.region].setStyle({fillColor: '#66A3FF', color: '#2c7fb8', opacity: 0.1, fillOpacity: 0.2});
+                    polygons[e.region].setStyle(notEmptyStyle);
                 }
             });
         }
     });
 }
 
-function plotRegionStat(region_id) {
-    var margin = {top: 60, right: 40, bottom: 30, left: 40},
-        width = 1000 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
-    var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
-    var y = d3.scale.linear().range([height, 0]);
-    var xAxis = d3.svg.axis().scale(x).orient("bottom");
-    var yAxis = d3.svg.axis().scale(y).orient("left").ticks(10);
-    var svg = d3.select(".hist").append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-    d3.json("/data/regions/stat/" + region_id, function(error, json_data) {
-        var data = d3.nest()
-            .entries(json_data.results.place_frequencies);
-
-        x.domain(data.map(function(d) { return d.key; }));
-        y.domain([0, d3.max(data, function(d) { return d.value; })]);
-
-         svg.selectAll(".bar")
-            .data(data)
-            .enter().append("rect")
-            .attr("class", "bar")
-            .attr("x", function(d) { return x(d.key); })
-            .attr("width", x.rangeBand())
-            .attr("y", function(d) { return y(Math.max(0, d.value)); })
-            .attr("height", function(d) { return Math.abs(y(d.value) - y(0)); })
-            .on('click', function(d, i){
-                $('.board').animate({"width": '20'});
-                flag = false;
-                showMapStat(i);
-            });
-
-        svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + y(0) + ")")
-            .call(xAxis)
-            .append("text")
-            .attr("x", 920)
-            .attr("y", 15)
-            .text("Type");
-
-        svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text("Amount");
-    });
-
-    function type(d) {
-        d.values = +d.values;
-        return d;
+function plotRegionStat(propertiesList, titleList) {
+    var margin = {
+        top: 60,
+        right: 50,
+        bottom: 20,
+        left: 50
+    };
+    
+    var width = 200 - margin.left - margin.right;
+    var width2 = (200 * 2) - margin.left - margin.right;
+    var height = 200 - margin.top - margin.bottom;
+    var height2 = (200 * 2) - margin.top - margin.bottom;
+    
+    var labelMargin = 20;
+    var colours = ['rgb(114,147,203)',
+                    'rgb(225,151,76)',
+                    'rgb(132,186,91)',
+                    'rgb(211,94,96)',
+                    'rgb(128,133,133)',
+                    'rgb(144,103,167)',
+                    'rgb(171,104,87)',
+                    'rgb(204,194,16)'];
+    /*
+    var propertiesList = [{
+            Green:7,
+            Sports:10,
+            Leisure:3
+            },
+            {
+            Green:2,
+            Sports:4,
+            Leisure:6
+            },
+            {
+            Green:5,
+            Sports:2,
+            Leisure:10
+            }];
+    */
+    var scale = d3.scale.linear()
+        .domain([0,1])
+        .range([0,1])
+    
+    if (propertiesList.lenght > 1){
+        for (var i = 0; i < propertiesList.length; i++){
+            var svg = d3.select(".hist")
+                        .append("svg")
+                        .attr('class', 'chart')
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.top + margin.bottom)
+            var star = starPlot()
+                        .width(width)
+                        .propertiesList([propertiesList[i]])
+                        .scales(scale)
+                        .colours([colours[i]])
+                        .title(titleList[i])
+                        .margin(margin)
+                        .labelMargin(labelMargin)
+            var starG = svg.append('g')
+                            .call(star)
+                            
+            svg.selectAll('.star-interaction')
+                .on('mouseover', function(d) {
+                    svg.selectAll('.star-label')
+                        .style('display', 'none')
+                    svg.append('circle')
+                        .attr('class', 'interaction-circle')
+                        .attr('r', 4)
+                        .attr('cx', d.x)
+                        .attr('cy', d.y)
+                        .attr('fill', 'gray')
+                    svg.append('text')
+                        .attr('class', 'star-interaction-label')
+                        .text(d.key + ":  " + d.value)
+                        .attr('x', d.textX)
+                        .attr('y', d.textY)
+                })
+                .on('mouseout', function(d) {
+                    svg.selectAll('.star-label')
+                        .style('display', '')
+                    svg.selectAll('.interaction-circle').remove()
+                    svg.selectAll('.star-interaction-label').remove()
+                })
+        }
     }
+ 
+    var svg = d3.select('.hist')
+                .append("svg")
+                .attr('class', 'chart')
+                .attr("width", 2 * width2 + margin.left + margin.right)
+                .attr("height", 2 * height2 + margin.top + margin.bottom)
+    var star = starPlot()
+                .width(width2)
+                .propertiesList(propertiesList)
+                .scales(scale)
+                .colours(colours)
+                .title('1095')
+                .margin(margin)
+                .labelMargin(labelMargin)
+    var starG = svg.append('g')
+                    .call(star)
+                    
+    svg.selectAll('.star-interaction')
+        .on('mouseover', function(d) {
+            svg.selectAll('.star-label')
+                .style('display', 'none')
+            svg.append('circle')
+                .attr('class', 'interaction-circle')
+                .attr('r', 4)
+                .attr('cx', d.x)
+                .attr('cy', d.y)
+                .attr('fill', 'gray')
+            svg.append('text')
+                .attr('class', 'star-interaction-label')
+                .text(d.key + ":  " + d.value)
+                .attr('x', d.textX)
+                .attr('y', d.textY)
+        })
+        .on('mouseout', function(d) {
+            svg.selectAll('.star-label')
+                .style('display', '')
+            svg.selectAll('.interaction-circle').remove()
+            svg.selectAll('.star-interaction-label').remove()
+        })
 }
 
 $.ajax({
-    url: '/data/regions',
+    url: add_host('/data/regions'),
     dataType: 'json',
     success: function load(d) {
+        var regionStyle = {
+            fillColor: '#66A3FF',
+            color: '#2c7fb8',
+            opacity: 0.5,
+            fillOpacity: 0.5
+        };
         d.results.forEach(function(e) {
             var polygon = L.polygon(e.border)
                 .bindPopup(e.region + '')
-                .setStyle({fillColor: '#66A3FF', color: '#2c7fb8', opacity: 0.5, fillOpacity: 0.5})
+                .setStyle(regionStyle)
                 .addTo(map);
 
             polygons[e.region] = polygon;
@@ -184,8 +286,16 @@ $.ajax({
                 $('.board').animate({"width": '1000'});
                 flag = true;
 
-                d3.select(".hist").select("svg").remove();
-                plotRegionStat(e.region);
+                d3.select(".hist").select("svg").select("chart").remove();
+
+                var data = [{
+                    Green: e.green,
+                    Sports: e.sport,
+                    Leisure: e.sport
+                }];
+
+                console.log(data[0]['Green'] + ' ' + data[0]['Sports']);
+                plotRegionStat(data, ['' + e.region]);
             });
         });
     }
@@ -213,18 +323,17 @@ $(".hide-board").click(function() {
 // Больше говн^Wбыдлокода пзязя
 $("#region-layer-switcher").click(function() {
     $("span#layer-caption").html("Regions");
-    showMapStat(-1);
+    showMapStat(layer_id['regions']);
 });
 
 $("#sport-layer-switcher").click(function() {
     $("span#layer-caption").html("Sport");
-    // TODO: Get these indexes from somewhere
-    showMapStat(1);
+    showMapStat(layer_id['sport']);
 });
 
 $("#green-layer-switcher").click(function() {
     $("span#layer-caption").html("Green");
-    showMapStat(0);
+    showMapStat(layer_id['green']);
 });
 
 
