@@ -4,7 +4,6 @@
 
 function add_host(path) {
     if (!document.domain)  {
-        alert('http://root.org.ua' + path);
         return 'http://root.org.ua' + path;
     }
     return path;
