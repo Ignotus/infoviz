@@ -122,7 +122,7 @@ function showMapStat(category_id) {
     });
 }
 
-function plotRegionStat(region_id) {
+function plotRegionStat(propertiesList, titleList) {
     var margin = {
         top: 60,
         right: 50,
@@ -144,35 +144,23 @@ function plotRegionStat(region_id) {
                     'rgb(144,103,167)',
                     'rgb(171,104,87)',
                     'rgb(204,194,16)'];
-    
+    /*
     var propertiesList = [{
             Green:7,
             Sports:10,
-            Leisure:3,
-            Lust:8,
-            Misc:8,
-            Education:4,
-            Faith:9
+            Leisure:3
             },
             {
             Green:2,
             Sports:4,
-            Leisure:6,
-            Lust:10,
-            Misc:4,
-            Education:2,
-            Faith:4
+            Leisure:6
             },
             {
             Green:5,
             Sports:2,
-            Leisure:10,
-            Lust:6,
-            Misc:2,
-            Education:8,
-            Faith:7
+            Leisure:10
             }];
-    
+    */
     scale = d3.scale.linear()
         .domain([0,2])
         .range([0,10])
@@ -188,7 +176,7 @@ function plotRegionStat(region_id) {
                     .propertiesList([propertiesList[i]])
                     .scales(scale)
                     .colours([colours[i]])
-                    .title('1095')
+                    .title(titleList[i])
                     .margin(margin)
                     .labelMargin(labelMargin)
         var starG = svg.append('g')
@@ -297,7 +285,15 @@ $.ajax({
                 flag = true;
 
                 d3.select(".hist").select("svg").select("chart").remove();
-                plotRegionStat(e.region);
+
+                var data = [{
+                    Green: e.green,
+                    Sports: e.sport,
+                    Leisure: e.sport
+                }];
+
+                console.log(data[0]['Green'] + ' ' + data[0]['Sports']);
+                plotRegionStat(data, ['' + e.region]);
             });
         });
     }
