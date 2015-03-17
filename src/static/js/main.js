@@ -5,8 +5,6 @@ function add_host(path) {
     return path;
 }
 
-flag = true;
-
 var layer_type = ['green', 'sport'];
 
 var layer_id = {
@@ -159,23 +157,7 @@ function plotRegionStat(propertiesList, titleList) {
                     'rgb(144,103,167)',
                     'rgb(171,104,87)',
                     'rgb(204,194,16)'];
-    /*
-    var propertiesList = [{
-            Green:7,
-            Sports:10,
-            Leisure:3
-            },
-            {
-            Green:2,
-            Sports:4,
-            Leisure:6
-            },
-            {
-            Green:5,
-            Sports:2,
-            Leisure:10
-            }];
-    */
+
     var scale = d3.scale.linear()
         .domain([0,1])
         .range([0,1])
@@ -253,18 +235,10 @@ $.ajax({
                 clicked_regions.push(e1.target);
 
                 e1.target.setStyle({fillColor: '#fec44f'});
-                if (flag) {
-                    $('.board').animate({"width": '20'});
-                }
-
-                $('.board').animate({"width": '1000'});
-                flag = true;
 
                 d3.select(".hist").select("svg").remove();
 
-                var data = {
-                };
-
+                var data = {};
                 layer_type.forEach(function(e2) {
                     data[e2] = e[e2];
                 });
@@ -278,22 +252,6 @@ $.ajax({
 
 
 //////////////////////////////////////////////
-
-
-//call this function to show and hide the panel/board on the right of screen
-var showHideBoard = function(){
-	if(flag){
-        $('.board').animate({"width": '1000'});
-    }else{
-        $('.board').animate({"width": '20'});
-    }
-    flag = !flag;
-}
- 
-$(".hide-board").click(function() {
-    $('.board').animate({"width": '20'});
-    flag = false;
-});
 
 // Больше говн^Wбыдлокода пзязя
 $("#region-layer-switcher").click(function() {
