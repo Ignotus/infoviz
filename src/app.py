@@ -1,6 +1,15 @@
 from flask import Flask, render_template, redirect, url_for
 from flask_assets import Environment, Bundle
 
+try:
+    from flask.ext.cors import CORS # The typical way to import flask-cors
+except ImportError:
+    # Path hack allows examples to be run without installation.
+    import os
+    parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    os.sys.path.insert(0, parentdir)
+    from flask.ext.cors import CORS
+
 from random import uniform
 
 from core.configuration import init
