@@ -207,45 +207,6 @@ function plotRegionStat(propertiesList, titleList) {
                 })
         }
     }
- 
-    var svg = d3.select('.hist')
-                .append("svg")
-                .attr('class', 'chart')
-                .attr("width", 2 * width2 + margin.left + margin.right)
-                .attr("height", 2 * height2 + margin.top + margin.bottom)
-    var star = starPlot()
-                .width(width2)
-                .propertiesList(propertiesList)
-                .scales(scale)
-                .colours(colours)
-                .title('1095')
-                .margin(margin)
-                .labelMargin(labelMargin)
-    var starG = svg.append('g')
-                    .call(star)
-                    
-    svg.selectAll('.star-interaction')
-        .on('mouseover', function(d) {
-            svg.selectAll('.star-label')
-                .style('display', 'none')
-            svg.append('circle')
-                .attr('class', 'interaction-circle')
-                .attr('r', 4)
-                .attr('cx', d.x)
-                .attr('cy', d.y)
-                .attr('fill', 'gray')
-            svg.append('text')
-                .attr('class', 'star-interaction-label')
-                .text(d.key + ":  " + d.value)
-                .attr('x', d.textX)
-                .attr('y', d.textY)
-        })
-        .on('mouseout', function(d) {
-            svg.selectAll('.star-label')
-                .style('display', '')
-            svg.selectAll('.interaction-circle').remove()
-            svg.selectAll('.star-interaction-label').remove()
-        })
 }
 
 $.ajax({
