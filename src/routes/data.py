@@ -3,13 +3,13 @@ from flask import Blueprint, jsonify
 # Registers a blueprint with a name 'data' and prefix '/data'
 data = Blueprint('data', __name__, url_prefix='/data')
 
-def construct_data(region_info, places_data):
-    supported_types = ['green', 'sport']
+def construct_data(region_info, places_data, supported_types):
+    #supported_types = ['green', 'sport']
 
     # Handles /data path. Open http://127.0.0.1:5000/data to see results
     @data.route('/')
     def data_main():
-        return 'Khto ne skache toi...'
+        return 'Khto ne skache toi... ? Windows users :P ?'
 
     # TODO: Cache it
     @data.route('/regions')

@@ -64,49 +64,72 @@ def parse_park_data(file_name):
 def parse_building_function_data(file_name):
     db = dbf.Table(file_name)
     db.open()
-    #print db
     db_entries = list()
     for entry in db:
-	info = {}
-	info['id'] = entry['zaak_id']
-	info['name'] = entry['zaaknaam']
-	info['streetname'] = entry['straatnaam'].strip().lower()
-	info['housenumber'] = entry['huisnummer']
-	info['functioncode'] = entry['klasse3_id'].strip()
-	info['subtype'] = entry['klasse3'].strip()
-	#info['neighbourhood'] = entry['buurt'].strip()
-	db_entries += [info]
+        info = {}
+        info['id'] = entry['zaak_id']
+        info['name'] = entry['zaaknaam']
+        info['streetname'] = entry['straatnaam'].strip().lower()
+        info['housenumber'] = entry['huisnummer']
+        info['functioncode'] = entry['klasse3_id'].strip()
+        info['subtype'] = entry['klasse3'].strip()
+        #info['neighbourhood'] = entry['buurt'].strip()
+        db_entries += [info]
     db.close()
     return db_entries
 
 def parse_postcode_data(file_name):
 
     def utf_8_encoder(unicode_csv_data):
-	for line in unicode_csv_data:
-	    yield line.encode('utf-8')
+        for line in unicode_csv_data:
+            yield line.encode('utf-8')
   
     result = list()
     with codecs.open(file_name, 'rb', "utf-8") as csvfile:
-	reader = csv.reader(utf_8_encoder(csvfile), delimiter=';', quotechar='"')
-	for row in reader:
-	    if row[9].strip() in ['Amsterdam', 'Amsterdam Zuidoost', 'Amsterdam-Duivendrecht', 'Amstelveen'] and row[8].strip() != "Postbus":
-		info = {}
-		info['streetname'] = unicode(row[8], 'utf-8').strip().lower()
-		info['postcode'] = row[3]
-		info['minnumber'] = int(row[5])
-		info['maxnumber'] = int(row[6])
-		info['numberorder'] = row[7]
-		info['coordinates'] = [row[15:17]]
-		result += [info]
+        reader = csv.reader(utf_8_encoder(csvfile), delimiter=';', quotechar='"')
+        for row in reader:
+            if row[9].strip() in ['Amsterdam', 'Amsterdam Zuidoost', 'Amsterdam-Duivendrecht', 'Amstelveen'] and row[8].strip() != "Postbus":
+                info = {}
+                info['streetname'] = unicode(row[8], 'utf-8').strip().lower()
+                info['postcode'] = row[3]
+                info['minnumber'] = int(row[5])
+                info['maxnumber'] = int(row[6])
+                info['numberorder'] = row[7]
+                info['coordinates'] = [row[15:17]]
+                result.append(info)
+    return result
+
+def parse_functional_building_data(file_name):
+
+    def utf_8_encoder(unicode_csv_data):
+        for line in unicode_csv_data:
+            yield line.encode('utf-8')
+
+    #row['coordinates'][0][0], row['coordinates'][0][1], row['type'], row['subtype'], row['name'], row['region']
+    result = list()
+    with codecs.open(file_name, 'rb', "utf-8") as csvfile:
+        reader = csv.reader(utf_8_encoder(csvfile), delimiter=';', quotechar='"')
+        for row in reader:
+            info = {}
+            info['coordinate'] = [row[0:2]]
+            info['type'] = unicode(row[2], 'utf-8')
+            info['subtype'] = unicode(row[3], 'utf-8')
+            info['name'] = unicode(row[4], 'utf-8')
+            info['region'] = int(row[5])
+            result.append(info)
     return result
 
 def parse_category_mapping(file_name):
     result = {}
+    categories = []
     with open(file_name, 'rb') as csvfile:
         reader = csv.reader(csvfile, delimiter=';')
         for row in reader:
             result[row[0]] = row[1]
-    return result
+            if row[1] not in categories:
+                categories.append(row[1])
+    return result, categories
+
 
 def parse_sport_fields_data(file_name):
     sport_fields = []
