@@ -7,13 +7,13 @@
   	
   <!-- Connects a css file from the folder static/css/ -->
   <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
-  <link rel="stylesheet" href="static/css/style.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 
   <!-- map api (this one now is not google api, it's only a demo) -->
 	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 	<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
   <script src="http://d3js.org/d3.v3.min.js"></script>
-  <script src="static/js/rainbowvis.js"></script>
+  <script src="{{ url_for('static', filename='js/rainbowvis.js') }}"></script>
 <style>
 .bar {
 fill: steelblue;
@@ -53,6 +53,6 @@ shape-rendering: crispEdges;
 	<!-- JQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<!-- The same with a JS file -->
-  <script src="static/js/main.js"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

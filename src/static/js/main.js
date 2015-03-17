@@ -18,7 +18,7 @@ var rainbow = new Rainbow();
 function showMapStat(category_id) {
     console.log('category:' + category_id);
     $.ajax({
-        url: 'http://root.org.ua/data/regions/stat',
+        url: '/data/regions/stat',
         dataType: 'json',
         success: function load(d) {
             var max = 0;
@@ -57,7 +57,7 @@ function plotRegionStat(region_id) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    d3.json("http://root.org.ua/data/regions/stat/" + region_id, function(error, json_data) {
+    d3.json("/data/regions/stat/" + region_id, function(error, json_data) {
         var data = d3.nest()
             .entries(json_data.results.place_frequencies);
 
@@ -105,7 +105,7 @@ function plotRegionStat(region_id) {
 }
 
 $.ajax({
-    url: 'http://root.org.ua/data/regions',
+    url: '/data/regions',
     dataType: 'json',
     success: function load(d) {
         d.results.forEach(function(e) {
