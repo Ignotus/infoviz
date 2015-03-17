@@ -1,6 +1,7 @@
 Flask
 Flask-WTF
 Flask-Assets
+flask-cors
 cssmin
 jsmin
 numpy

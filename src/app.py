@@ -14,6 +14,8 @@ for module in route_modules:
 
 app = Flask(__name__)
 
+cors = CORS(app, allow_headers='Content-Type')
+
 # Init the flask application by parameters
 init(app)
 

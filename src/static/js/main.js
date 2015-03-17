@@ -1,7 +1,15 @@
 // 
 // Map API (mapbox.com) doc:
 // https://www.mapbox.com/mapbox.js/example/v1.0.0/clicks-in-popups/
-  
+
+function add_host(path) {
+    if (!document.domain)  {
+        alert('http://root.org.ua' + path);
+        return 'http://root.org.ua' + path;
+    }
+    return path;
+}
+
 flag = true;
 
 var captions = ["Regions", "Greens", "Sport"]
@@ -39,13 +47,13 @@ function showMapStat(category_id) {
     }
 
     $.ajax({
-        url: '/data/regions',
+        url: add_host('/data/regions'),
         dataType: 'json',
         success: function load(d) {
             var markers = L.markerClusterGroup();
             d.results.forEach(function(e) {
                 $.ajax({
-                    url: '/data/objects/by_region/' + e.region + '/by_type/' + layer_type[category_id],
+                    url: add_host('/data/objects/by_region/' + e.region + '/by_type/' + layer_type[category_id]),
                     dataType: 'json',
                     success: function load(d) {
                         d.results.forEach(function(e) {
@@ -62,7 +70,7 @@ function showMapStat(category_id) {
     });
     
     $.ajax({
-        url: '/data/regions/stat',
+        url: add_host('/data/regions/stat'),
         dataType: 'json',
         success: function load(d) {
             var max = 0;
@@ -105,7 +113,7 @@ function plotRegionStat(region_id) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    d3.json("/data/regions/stat/" + region_id, function(error, json_data) {
+    d3.json(add_host('/data/regions/stat/' + region_id), function(error, json_data) {
         var data = d3.nest()
             .entries(json_data.results.place_frequencies);
 
@@ -153,7 +161,7 @@ function plotRegionStat(region_id) {
 }
 
 $.ajax({
-    url: '/data/regions',
+    url: add_host('/data/regions'),
     dataType: 'json',
     success: function load(d) {
         d.results.forEach(function(e) {
