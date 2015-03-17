@@ -3,7 +3,7 @@
 // https://www.mapbox.com/mapbox.js/example/v1.0.0/clicks-in-popups/
 
 function add_host(path) {
-    if (!document.domain)  {
+    if (!document.domain) {
         return 'http://root.org.ua' + path;
     }
     return path;
@@ -11,15 +11,24 @@ function add_host(path) {
 
 flag = true;
 
-var captions = ["Regions", "Greens", "Sport"]
-var layer_type = ['green', 'sport']
+var layer_type = ['green', 'sport'];
+
+var layer_id = {
+    'region' : -1,
+    'green': 0,
+    'sport' : 1
+};
+
+var layer_captions = {}
+layer_captions[layer_id['region']] = "Regions";
+layer_captions[layer_id['green']] = "Greens";
+layer_captions[layer_id['sport']] = "Sport";
 
 // ----------------  show map, please change here --------------- // 
 L.mapbox.accessToken = 'pk.eyJ1IjoieGlhb2xpIiwiYSI6IkhpWkZhZFkifQ.RgWs4kq33jfD3d46_TTd6g';
 
-var map = L.mapbox.map('map', 'examples.map-i86nkdio')
-	    .setView([52.3648367,4.9151507], 13);
-
+var amsterdamCoordinates = [52.3648367,4.9151507];
+var map = L.mapbox.map('map', 'examples.map-i86nkdio').setView(amsterdamCoordinates, 13);
 var clicked_regions = [];
 
 var polygons = {};
@@ -30,7 +39,7 @@ var markerss = [];
 var rainbow = new Rainbow(); 
 
 function showMapStat(category_id) {
-    $("span#layer-caption").html(captions[category_id + 1]);
+    $("span#layer-caption").html(layer_captions[category_id]);
 
     markerss.forEach(function(e) {
         map.removeLayer(e);
@@ -39,8 +48,15 @@ function showMapStat(category_id) {
     markerss = [];
 
     if (category_id == -1) {
+        var style = {
+            fillColor: '#66A3FF',
+            color: '#2c7fb8',
+            opacity: 0.5,
+            fillOpacity: 0.5
+        };
+
         for (var key in polygons) {
-            polygons[key].setStyle({fillColor: '#66A3FF', color: '#2c7fb8', opacity: 0.5, fillOpacity: 0.5});
+            polygons[key].setStyle(style);
         }
         return;
     }
@@ -49,10 +65,11 @@ function showMapStat(category_id) {
         url: add_host('/data/regions'),
         dataType: 'json',
         success: function load(d) {
-            var markers = L.markerClusterGroup();
+            var markers = new L.MarkerClusterGroup();
             d.results.forEach(function(e) {
+                var path = '/data/objects/by_region/' + e.region + '/by_type/' + layer_type[category_id];
                 $.ajax({
-                    url: add_host('/data/objects/by_region/' + e.region + '/by_type/' + layer_type[category_id]),
+                    url: add_host(path),
                     dataType: 'json',
                     success: function load(d) {
                         d.results.forEach(function(e) {
@@ -81,17 +98,28 @@ function showMapStat(category_id) {
             rainbow.setNumberRange(0, max);
             rainbow.setSpectrum('lightgreen', 'darkgreen');
 
+            var emptyStyle = {
+                fillColor: '#66A3FF',
+                color: '#2c7fb8',
+                opacity: 0.1,
+                fillOpacity: 0.2
+            }
+
             d.results.forEach(function(e) {
                 if (e.place_frequencies[category_id].value > 0.0001) {
                     var hexColour = rainbow.colourAt(e.place_frequencies[category_id].value);
                     var stringColor = '#' + hexColour;
-                    polygons[e.region].setStyle({fillColor: stringColor,
-                                                 color: stringColor,
-                                                 fillOpacity: 0.5,
-                                                 opacity: 0.5});
+                    var notEmptyStyle = {
+                        fillColor: stringColor,
+                        color: stringColor,
+                        fillOpacity: 0.5,
+                        opacity: 0.5
+                    };
+
+                    polygons[e.region].setStyle(notEmptyStyle);
                     polygons_color[e.region] = stringColor;
                 } else {
-                    polygons[e.region].setStyle({fillColor: '#66A3FF', color: '#2c7fb8', opacity: 0.1, fillOpacity: 0.2});
+                    polygons[e.region].setStyle(notEmptyStyle);
                 }
             });
         }
@@ -163,10 +191,16 @@ $.ajax({
     url: add_host('/data/regions'),
     dataType: 'json',
     success: function load(d) {
+        var regionStyle = {
+            fillColor: '#66A3FF',
+            color: '#2c7fb8',
+            opacity: 0.5,
+            fillOpacity: 0.5
+        };
         d.results.forEach(function(e) {
             var polygon = L.polygon(e.border)
                 .bindPopup(e.region + '')
-                .setStyle({fillColor: '#66A3FF', color: '#2c7fb8', opacity: 0.5, fillOpacity: 0.5})
+                .setStyle(regionStyle)
                 .addTo(map);
 
             polygons[e.region] = polygon;
@@ -220,18 +254,17 @@ $(".hide-board").click(function() {
 // Больше говн^Wбыдлокода пзязя
 $("#region-layer-switcher").click(function() {
     $("span#layer-caption").html("Regions");
-    showMapStat(-1);
+    showMapStat(layer_id['regions']);
 });
 
 $("#sport-layer-switcher").click(function() {
     $("span#layer-caption").html("Sport");
-    // TODO: Get these indexes from somewhere
-    showMapStat(1);
+    showMapStat(layer_id['sport']);
 });
 
 $("#green-layer-switcher").click(function() {
     $("span#layer-caption").html("Green");
-    showMapStat(0);
+    showMapStat(layer_id['green']);
 });
 
 
