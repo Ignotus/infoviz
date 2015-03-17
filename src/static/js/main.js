@@ -296,7 +296,7 @@ $.ajax({
                 $('.board').animate({"width": '1000'});
                 flag = true;
 
-                d3.select(".hist").select("svg").remove();
+                d3.select(".hist").select("svg").select("chart").remove();
                 plotRegionStat(e.region);
             });
         });
