@@ -30,13 +30,13 @@ Map = function(core) {
             };
 
             results.forEach(function(e) {
-                var popupMessage = e.region + '<br />'
+                var popupMessage = '<center><font size="3"><b>' + e.region + '</b></font></center>'
                         + '<b>Region area</b>: ' + e.area + ' m^2<br />'
                         + '<b>Average price</b>: ' + e.avgPrice + ' EUR <br />'
                         + '<b>Average price per m^2</b>: ' + e.avgPricePerSquareMeter + ' EUR <br />'
                         + '<b>Average surface area</b>: ' + e.avgSurfaceArea + ' m^2<br />'
                         + '<a href="http://www.funda.nl/koop/amsterdam/'
-                        + e.region + '/">Find a house</a>';
+                        + e.region + '/"><center>Find a house</center></a>';
                 var polygon = L.polygon(e.border)
                     .bindPopup(popupMessage)
                     .setStyle(regionStyle)
