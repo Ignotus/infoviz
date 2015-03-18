@@ -79,7 +79,6 @@ starPlot = function() {
                 var keyWithoutDash = key.replace("-", "")
                 var userScale = scales[keyWithoutDash]
                 
-                console.log(userScale)
                 var point = [scale(userScale(properties[key])), r]
                 pathData.push(point)
                 r += radians;

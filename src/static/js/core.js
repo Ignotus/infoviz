@@ -62,7 +62,7 @@ Core = function() {
         var sportScale = d3.scale.linear()
             .domain([0,2])
             .range([0,100])
-        console.log(activityScale(10))
+
         var scales = {activity:activityScale,
                         culinary:culinaryScale,
                         cultural:culturalScale,
