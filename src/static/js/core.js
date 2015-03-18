@@ -11,7 +11,7 @@ Core = function() {
 
     var self = this;
 
-    this.plotRegionStat = function(propertiesList, titleList) {
+    this.plotRegionStat = function(propertiesList, titleList, plotName) {
         var margin = {
             top: 60,
             right: 50,
@@ -76,7 +76,7 @@ Core = function() {
         for (var i = 0; i < propertiesList.length; i++) {
             var svg = d3.select(".hist")
                         .append("svg")
-                        .attr('class', 'chart')
+                        .attr('class', plotName)
                         .attr("width", width + margin.left + margin.right)
                         .attr("height", height + margin.top + margin.bottom)
             var star = starPlot()
