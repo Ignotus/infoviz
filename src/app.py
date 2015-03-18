@@ -15,6 +15,7 @@ from random import uniform
 from core.configuration import init
 import core.parser as parser
 import core.data_manip as data_manip
+import core.cache as cache
 
 # Import blueprint modules
 route_modules = ['data', 'citymap']
@@ -22,6 +23,9 @@ for module in route_modules:
     exec('from routes.%s import *' % (module))
 
 app = Flask(__name__)
+
+
+cache.init_app(app, config={'CACHE_TYPE': 'simple'})
 
 cors = CORS(app, allow_headers='Content-Type')
 

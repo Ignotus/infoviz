@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify
+from core.cache import cache
 
 # Registers a blueprint with a name 'data' and prefix '/data'
 data = Blueprint('data', __name__, url_prefix='/data')
@@ -11,12 +12,13 @@ def construct_data(region_info, places_data, supported_types):
     def data_main():
         return 'Khto ne skache toi... ? Windows users :P ?'
 
-    # TODO: Cache it
     @data.route('/regions')
+    @cache.memoize(100)
     def data_regions():
         return jsonify(results=region_info)
 
     @data.route('/regions/stat')
+    @cache.memoize(100)
     def data_region_stat():
         stat = []
         for region in region_info:
@@ -30,6 +32,7 @@ def construct_data(region_info, places_data, supported_types):
         return jsonify(results=stat)
 
     @data.route('/regions/stat/<int:region>')
+    @cache.memoize(100)
     def data_region(region):
         region_data = {}
 
@@ -41,30 +44,29 @@ def construct_data(region_info, places_data, supported_types):
         return jsonify(results=region_data)
             
 
-    # TODO: Cache it
     @data.route('/objects/types')
     def data_object_types():
         return jsonify(results=supported_types)
 
-    # TODO: Cache it
     @data.route('/objects/all')
+    @cache.memoize(100)
     def data_object_all():
         return jsonify(results=places_data)
 
-    # TODO: Cache it
     @data.route('/objects/by_type/<object_type>')
+    @cache.memoize(100)
     def data_objects_by_type(object_type):
         objects = [place for place in places_data if place['type'] == object_type]
         return jsonify(results=objects)
 
-    # TODO: Cache it
     @data.route('/objects/by_region/<int:region>')
+    @cache.memoize(100)
     def data_region_objects(region):
         objects = [place for place in places_data if place['region'] == region]
         return jsonify(results=objects)
 
-    # TODO: Cache it
     @data.route('/objects/by_region/<int:region>/by_type/<object_type>')
+    @cache.memoize(100)
     def data_region_objects_by_type(region, object_type):
         objects = [place for place in places_data if place['region'] == region and place['type'] == object_type]
         return jsonify(results=objects)
