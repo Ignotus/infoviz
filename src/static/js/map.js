@@ -31,7 +31,7 @@ Map = function(core) {
 
             results.forEach(function(e) {
                 var polygon = L.polygon(e.border)
-                    .bindPopup(e.region + '')
+                    .bindPopup(e.region + '<br /><a href="http://www.funda.nl/koop/amsterdam/' + e.region + '/">Find a house</a>')
                     .setStyle(regionStyle)
                     .addTo(self.map);
 
