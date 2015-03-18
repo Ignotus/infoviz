@@ -38,6 +38,41 @@ Core = function() {
             .domain([0,100])
             .range([0,100])
         
+        var activityScale = d3.scale.linear()
+            .domain([0,60])
+            .range([0,100])
+        var culinaryScale = d3.scale.linear()
+            .domain([0,35])
+            .range([0,100])
+        var culturalScale = d3.scale.linear()
+            .domain([0,6])
+            .range([0,100])
+        var greenScale = d3.scale.linear()
+            .domain([0,0.5])
+            .range([0,100])
+        var nonLeisureScale = d3.scale.linear()
+            .domain([0,40])
+            .range([0,100])
+        var relaxationScale = d3.scale.linear()
+            .domain([0,11])
+            .range([0,100])
+        var spiritualScale = d3.scale.linear()
+            .domain([0,2])
+            .range([0,100])
+        var sportScale = d3.scale.linear()
+            .domain([0,2])
+            .range([0,100])
+        console.log(activityScale(10))
+        var scales = {activity:activityScale,
+                        culinary:culinaryScale,
+                        cultural:culturalScale,
+                        green:greenScale,
+                        nonleisure:nonLeisureScale,
+                        relaxation:relaxationScale,
+                        spiritual:spiritualScale,
+                        sport:sportScale
+                    }
+        
         for (var i = 0; i < propertiesList.length; i++) {
             var svg = d3.select(".hist")
                         .append("svg")
@@ -47,7 +82,7 @@ Core = function() {
             var star = starPlot()
                         .width(width)
                         .propertiesList([propertiesList[i]])
-                        .scales(scale)
+                        .scales(scales)
                         .colours([colours[i]])
                         .title(titleList[i])
                         .margin(margin)
