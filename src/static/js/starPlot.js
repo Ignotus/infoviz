@@ -72,7 +72,6 @@ starPlot = function() {
 
         
         r = Math.PI / 2;
-        console.log(propertiesList)
         for (var i=0; i < propertiesList.length; i++) {
             var pathData = [];
             var properties = propertiesList[i]
