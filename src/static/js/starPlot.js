@@ -8,7 +8,7 @@ starPlot = function() {
       },
       labelMargin = 20,
       propertiesList = {},
-      scales = [],
+      scales = {},
       colours = [],
       title = '',
 
@@ -76,7 +76,11 @@ starPlot = function() {
             var pathData = [];
             var properties = propertiesList[i]
             for (var key in properties) {
-                var point = [scale(properties[key]), r]
+                var keyWithoutDash = key.replace("-", "")
+                var userScale = scales[keyWithoutDash]
+                
+                console.log(userScale)
+                var point = [scale(userScale(properties[key])), r]
                 pathData.push(point)
                 r += radians;
             }        
@@ -110,9 +114,11 @@ starPlot = function() {
                 var lExtent = radius + labelMargin;
                 var xExtent = lExtent * Math.cos(rExtent) + origin[0] + margin.left;
                 var yExtent = lExtent * Math.sin(rExtent) + origin[1] + margin.top;
+                
+                var keyWithoutDash = key.replace("-", "")
+                var userScale = scales[keyWithoutDash]
 
-                var userScale = scales[0];
-                lValue = scale(properties[key]);
+                lValue = scale(userScale(properties[key]));
                 x = lValue * Math.cos(rExtent) + origin[0] + margin.left;
                 y = lValue * Math.sin(rExtent) + origin[1] + margin.top;
                 
@@ -136,16 +142,7 @@ starPlot = function() {
                     .attr('class', 'star-interaction')
                     .attr('transform', 'translate(' + origin[0] + ',' + origin[1] + ')')
                     .attr('d', path(pathData) + 'Z')
-                /**
-                g.append('text')
-                    .attr('class', 'star-interaction-label')
-                    .text(key + ": " + properties[key])
-                    .attr('x', textX)
-                    .attr('y', textY)
-                    .style('text-anchor', 'middle')
-                    .style('dominant-baseline', 'central')
-                    //.style('display', 'none')
-                **/
+
                 rInteraction += radians;
                 rExtent += radians;
             }
@@ -154,10 +151,8 @@ starPlot = function() {
   
   chart.scales = function(_) {
     if(!arguments.length) return scales;
-    if(Array.isArray(_)) {
+    if(_.constructor == Object) {
       scales = _;
-    } else {
-      scales = [_];
     }
     return chart;
   };
