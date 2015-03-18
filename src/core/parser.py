@@ -12,7 +12,7 @@ def area(polygons):
     lon, lat = zip(*polygons)
     x, y = pa(lon, lat)
     cop = {"type": "Polygon", "coordinates": [zip(x, y)]}
-    return shape(cop).area
+    return float("{0:.2f}".format(float(shape(cop).area)))
 
 def parse_region_data(file_name):
     # [{'region' : id, 'border' : [[x1, y1], [x2, y2], ..]}]
@@ -49,7 +49,7 @@ def parse_park_data(file_name):
             # TODO: Change to the correct one
             new_park['type'] = 'green'
             new_park['subtype'] = 'park'
-            new_park['area'] = float(columns[9])
+            new_park['area'] = float("{0:.2f}".format(float(columns[9])))
             
             polygons = re.findall(r'\(([^()]+)\)', columns[10])
             coordinates = [[[float(number)
@@ -165,7 +165,7 @@ def parse_average_price_data(file_name, region_info):
             }
 
             region_data[postcode] = new_item
-            
+
     for region in region_info:
         postcode = region['region']
         if postcode in region_data:
