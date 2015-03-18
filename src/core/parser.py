@@ -111,7 +111,7 @@ def parse_functional_building_data(file_name):
         reader = csv.reader(utf_8_encoder(csvfile), delimiter=';', quotechar='"')
         for row in reader:
             info = {}
-            info['coordinate'] = [row[0:2]]
+            info['coordinate'] = [float(coord) for coord in row[0:2]]
             info['type'] = unicode(row[2], 'utf-8')
             info['subtype'] = unicode(row[3], 'utf-8')
             info['name'] = unicode(row[4], 'utf-8')
