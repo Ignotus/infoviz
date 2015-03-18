@@ -151,3 +151,22 @@ def parse_sport_fields_data(file_name):
 
     return sport_fields
 
+def parse_average_price_data(file_name, region_info):
+    region_data = {}
+    with open(file_name, 'r') as f:
+        f.readline()
+        for line in f:
+            columns = line.split(',')
+            postcode = int(columns[0])
+            new_item = {
+                'avgPrice' : int(columns[1]),
+                'avgSurfaceArea' : int(columns[2]),
+                'avgPricePerSquareMeter' : int(columns[3])
+            }
+
+            region_data[postcode] = new_item
+            
+    for region in region_info:
+        postcode = region['region']
+        if postcode in region_data:
+            region.update(region_data[postcode])

@@ -41,6 +41,8 @@ def main():
 # Achtung! Run the app from the directory src to make it works
 region_info = parser.parse_region_data('../data/polygon-info.csv')
 
+parser.parse_average_price_data('../data/average-housing-price.csv', region_info)
+
 park_data = parser.parse_park_data('../data/green-areas-and-parks.csv')
 park_data = data_manip.add_postcode_for_places(region_info, park_data)
 
