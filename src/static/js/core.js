@@ -102,7 +102,7 @@ Core = function() {
                         .attr('fill', 'gray')
                     svg.append('text')
                         .attr('class', 'star-interaction-label')
-                        .text(d.key + ":  " + d.value)
+                        .text(d.key + ":  " + Math.round(d.value * 10) / 10)
                         .attr('x', d.textX)
                         .attr('y', d.textY)
                 })
