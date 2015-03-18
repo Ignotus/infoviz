@@ -251,7 +251,6 @@ $.ajax({
                     data[e2] = e[e2];
                 });
 
-                console.log(data);
                 plotRegionStat([data], ['' + e.region]);
             });
         });
