@@ -44,11 +44,18 @@ Map = function(core) {
                             target.setStyle({fillColor: polygonsColor[target]});
                         });
 
-                        clickedRegions = [];
+                        //clickedRegions = [];
                     }
-
-                    clickedRegions.push(e1.target);
-
+                    
+                    if(clickedRegions.indexOf(e1.target) !== -1){
+                        console.log("double clicked")
+                        var index = clickedRegions.indexOf(e1.target)
+                        d3.select('.hist').selectAll("svg.chart").remove()
+                        clickedRegions.splice(e1.target, 1)
+                        //console.log(d3.select('.hist').select('svg'))
+                    }else {
+                        clickedRegions.push(e1.target);
+                    }
                     e1.target.setStyle({fillColor: '#fec44f'});
 
                     //d3.select(".hist").select("svg").remove();

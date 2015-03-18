@@ -19,10 +19,10 @@ Core = function() {
             left: 50
         };
         
-        var width = 200 - margin.left - margin.right;
-        var width2 = (200 * 2) - margin.left - margin.right;
-        var height = 200 - margin.top - margin.bottom;
-        var height2 = (200 * 2) - margin.top - margin.bottom;
+        var width = 250 - margin.left - margin.right;
+        var width2 = (250 * 2) - margin.left - margin.right;
+        var height = 250 - margin.top - margin.bottom;
+        var height2 = (250 * 2) - margin.top - margin.bottom;
         
         var labelMargin = 20;
         var colours = ['rgb(114,147,203)',
