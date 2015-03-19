@@ -3,9 +3,8 @@ Map = function(core) {
     var amsterdamCoordinates = [52.3648367,4.9151507];
     this.map = L.mapbox.map('map', 'examples.map-i86nkdio').setView(amsterdamCoordinates, 13);
 
-    var clickedRegions = [];
+    var clickedRegion = 0;
     var polygons = {};
-    var polygonToPostcode = {};
     var polygonsStyle = {};
     this.markers = [];
 
@@ -45,22 +44,18 @@ Map = function(core) {
 
                 polygons[e.region] = polygon;
                 polygonsStyle[e.region] = regionStyle;
-                polygonToPostcode[polygon] = e.region;
 
                 polygon.on('dblclick', function(e1){
 
                 });
 
                 polygon.on('click', function(e1) {
-                    if (clickedRegions.length > 0) {
-                        clickedRegions.forEach(function(target) {
-                            polygons[target].setStyle(polygonsStyle[target]);
-                        });
-
-                        clickedRegions = [];
+                    if (clickedRegion != 0) {
+                        polygons[clickedRegion].setStyle(polygonsStyle[clickedRegion]);
+                        clickedRegion = 0;
                     }
                     
-                    clickedRegions.push(e.region);
+                    clickedRegion = e.region;
                     e1.target.setStyle({fillColor: '#fec44f'});
 
                     var data = {};
