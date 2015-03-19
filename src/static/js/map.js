@@ -5,7 +5,8 @@ Map = function(core) {
 
     var clickedRegions = [];
     var polygons = {};
-    var polygonsColor = {};
+    var polygonToPostcode = {};
+    var polygonsStyle = {};
     this.markers = [];
 
     var rainbow = new Rainbow();
@@ -43,33 +44,33 @@ Map = function(core) {
                     .addTo(self.map);
 
                 polygons[e.region] = polygon;
-                polygonsColor[e.region] = '#66A3FF';
+                polygonsStyle[e.region] = regionStyle;
+                polygonToPostcode[polygon] = e.region;
+
+                polygon.on('dblclick', function(e1){
+
+                });
 
                 polygon.on('click', function(e1) {
                     if (clickedRegions.length > 0) {
                         clickedRegions.forEach(function(target) {
-                            target.setStyle({fillColor: polygonsColor[target]});
+                            polygons[target].setStyle(polygonsStyle[target]);
                         });
+
+                        clickedRegions = [];
                     }
                     
-                    if(clickedRegions.indexOf(e1.target) !== -1){
-                        console.log("double clicked")
-                        var index = clickedRegions.indexOf(e1.target)
-                        console.log(e.region)
-                        d3.select('.hist').select(".chart" + e.region).remove()
-                        clickedRegions.splice(e1.target, 1)
-                    }else {
-                        clickedRegions.push(e1.target);
-                        e1.target.setStyle({fillColor: '#fec44f'});
+                    clickedRegions.push(e.region);
+                    e1.target.setStyle({fillColor: '#fec44f'});
 
-                        var data = {};
-                        core.layerType.forEach(function(e2) {
-                            data[e2] = e[e2];
-                        });
+                    var data = {};
+                    core.layerType.forEach(function(e2) {
+                        data[e2] = e[e2];
+                    });
 
-                        core.plotRegionStat([data], ['' + e.region], 'chart' + e.region);
-                    }
+                    d3.select('.hist').select('svg').remove();
 
+                    core.plotRegionStat([data], ['' + e.region], 'chart' + e.region);
                 });
             });
         });
@@ -129,6 +130,7 @@ Map = function(core) {
             }
 
             results.forEach(function(e) {
+                var polygon = polygons[e.region];
                 if (e.place_frequencies[categoryID].value > 0.0001) {
                     var hexColour = rainbow.colourAt(e.place_frequencies[categoryID].value);
                     var stringColor = '#' + hexColour;
@@ -139,10 +141,11 @@ Map = function(core) {
                         opacity: 0.5
                     };
 
-                    polygons[e.region].setStyle(notEmptyStyle);
-                    polygonsColor[e.region] = stringColor;
+                    polygon.setStyle(notEmptyStyle);
+                    polygonsStyle[e.region] = notEmptyStyle;
                 } else {
-                    polygons[e.region].setStyle(notEmptyStyle);
+                    polygon.setStyle(emptyStyle);
+                    polygonsStyle[e.region] = emptyStyle;
                 }
             });
         });
