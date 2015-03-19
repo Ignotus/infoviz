@@ -138,7 +138,7 @@ Core = function() {
 
         $(".dropdown-menu").on("click", "#region-layer-switcher", function() {
             $("span#layer-caption").html("Regions");
-            handle(-1);
+            handle(self.layerID['region']);
         });
     }
 }

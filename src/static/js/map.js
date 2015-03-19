@@ -119,6 +119,7 @@ Map = function(core) {
 
             for (var key in polygons) {
                 polygons[key].setStyle(style);
+                polygonsStyle[key] = style;
             }
             return;
         }
