@@ -6,6 +6,7 @@ Map = function(core) {
     var clickedRegion = 0;
     var polygons = {};
     var polygonsStyle = {};
+    this.starPlotData = {};
     this.markers = [];
 
     var rainbow = new Rainbow();
@@ -18,6 +19,18 @@ Map = function(core) {
         });
 
         self.markers = [];
+    }
+
+    var drawStarPlot = function() {
+        var data = [];
+        var label = [];
+        for (var key in self.starPlotData) {
+            data.push(self.starPlotData[key]);
+            label.push(key);
+        };
+
+        d3.select('.hist').html("");
+        core.plotRegionStat(data, label, 'chart');
     }
 
     this.drawRegions = function() {
@@ -45,10 +58,27 @@ Map = function(core) {
                 polygons[e.region] = polygon;
                 polygonsStyle[e.region] = regionStyle;
 
-                polygon.on('dblclick', function(e1){
+/*
+                polygon.on('dblclick', function(e1) {
+                    if (clickedRegion != 0) {
+                        polygons[clickedRegion].setStyle(polygonsStyle[clickedRegion]);
+                        clickedRegion = 0;
+                    }
+                    
+                    clickedRegion = e.region;
+                    e1.target.setStyle({fillColor: '#fec44f'});
 
+                    var newItem = {};
+                    core.layerType.forEach(function(e2) {
+                        newItem[e2] = e[e2];
+                    });
+
+                    self.starPlotData = {};
+                    self.starPlotData[e.region] = newItem;
+
+                    drawStarPlot();
                 });
-
+*/
                 polygon.on('click', function(e1) {
                     if (clickedRegion != 0) {
                         polygons[clickedRegion].setStyle(polygonsStyle[clickedRegion]);
@@ -58,14 +88,17 @@ Map = function(core) {
                     clickedRegion = e.region;
                     e1.target.setStyle({fillColor: '#fec44f'});
 
-                    var data = {};
+                    if (e.region in self.starPlotData) {
+                        self.starPlotData = {};
+                    }
+                    var newItem = {};
                     core.layerType.forEach(function(e2) {
-                        data[e2] = e[e2];
+                        newItem[e2] = e[e2];
                     });
 
-                    d3.select('.hist').select('svg').remove();
+                    self.starPlotData[e.region] = newItem;
 
-                    core.plotRegionStat([data], ['' + e.region], 'chart' + e.region);
+                    drawStarPlot();
                 });
             });
         });
