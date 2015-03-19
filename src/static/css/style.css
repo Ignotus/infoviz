@@ -10,8 +10,6 @@ body {
 section {
 	background: #fff;
 	padding: 20px;
-	-webkit-border-radius: 10px; 
-	-moz-border-radius: 10px;
 	border-radius: 10px;
 	min-width: 740px;
 }
@@ -66,8 +64,6 @@ section {
   	width: 150px;
 }
 
-### StarPlot
-
 .chart {
     margin-bottom:40px
 }
@@ -79,7 +75,7 @@ section {
 }
 .star-axis {
     stroke: gray;
-    stroke-width = 1;
+    stroke-width: 1;
     stroke-dasharray: 4 5;
 }
 .star-path {
