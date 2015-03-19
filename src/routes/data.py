@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from core.cache import cache
 
 # Registers a blueprint with a name 'data' and prefix '/data'
@@ -52,6 +52,15 @@ def construct_data(region_info, places_data, supported_types):
     @cache.memoize(100)
     def data_object_all():
         return jsonify(results=places_data)
+
+    @data.route('/objects/all/by_region', methods=['GET'])
+    @cache.memoize(100)
+    def data_object_all_by_region():
+        region_list = [int(region) for region in request.args.get('regions').split(',')]
+        objects = {}
+        for region in region_list:
+            objects[region] = [place for place in places_data if place['region'] == region]
+        return jsonify(results=objects)
 
     @data.route('/objects/by_type/<object_type>')
     @cache.memoize(100)
