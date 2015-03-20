@@ -105,7 +105,6 @@ def parse_functional_building_data(file_name):
         for line in unicode_csv_data:
             yield line.encode('utf-8')
 
-    #row['coordinates'][0][0], row['coordinates'][0][1], row['type'], row['subtype'], row['name'], row['region']
     result = list()
     with codecs.open(file_name, 'rb', "utf-8") as csvfile:
         reader = csv.reader(utf_8_encoder(csvfile), delimiter=';', quotechar='"')

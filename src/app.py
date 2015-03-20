@@ -59,21 +59,25 @@ places_data = park_data + sport_data + functional_dataset
 
 def calc_green_stat(index):
     park_area = sum([place['area'] for place in park_data if place['region'] == region_info[index]['region']])
-    return park_area / region_info[index]['area']
+    return [park_area / region_info[index]['area'], park_area]
 
 def calc_sport_stat(index):
-    return (10 ** 5) *len([place for place in sport_data if place['region'] == region_info[index]['region']]) / region_info[index]['area']
+    tmp = len([place for place in sport_data if place['region'] == region_info[index]['region']])
+    return [((10 ** 5) * tmp) / region_info[index]['area'], tmp]
 
 def split_data(index):
         all_places = [place for place in functional_dataset if place['region'] == region_info[index]['region']]
         res = {}
         for cat in categories:
-            tr = [place for place in all_places if place['type'] == cat]
-            res[cat] =  ((10 ** 5 * len(tr)) / region_info[index]['area'], tr)
+            tr = len([place for place in all_places if place['type'] == cat])
+            res[cat] =  ((10 ** 5 * tr) / region_info[index]['area'], tr)
         return res
 
 categories.append('non-leisure')
 categories.append('green')
+
+maxcat = {}
+
 index = 0
 for region in region_info:
     fd = split_data(index)
@@ -81,14 +85,27 @@ for region in region_info:
         if cat in fd:
             #print region, cat, fd[cat][0]
             region_info[index][cat] = fd[cat][0]
+            region_info[index][cat + "_real"] = fd[cat][1]
         if cat == 'sport':
+            sport = calc_sport_stat(index)
             if 'sport' in region_info[index]:
-                region_info[index]['sport'] += calc_sport_stat(index)
+                region_info[index]['sport'] += sport[0]
+            	region_info[index][cat + "_real"] += sport[1]
             else:
-                region_info[index]['sport'] = calc_sport_stat(index)
+                region_info[index]['sport'] = sport[0] 
+            	region_info[index][cat + "_real"] = sport[1]
         elif cat == 'green':
-            region_info[index]['green'] = calc_green_stat(index)
+            green = calc_green_stat(index)
+            region_info[index]['green'] = green[0]
+            region_info[index]['green_real'] = green[1]
+        if cat not in maxcat or region_info[index][cat] > maxcat[cat]:
+	    maxcat[cat] = region_info[index][cat]
+
     index += 1
+
+for region in region_info:
+    for cat in categories:
+        region[cat] = (region[cat]/maxcat[cat])*100
 
 #print region_info#, places_data, categories
 construct_data(region_info = region_info, places_data = places_data, supported_types=categories)
@@ -107,4 +124,4 @@ assets.register("js_main", js_main)
 
 if __name__ == '__main__':
     # Run the app
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=10052)
