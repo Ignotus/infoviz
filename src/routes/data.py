@@ -32,7 +32,6 @@ def construct_data(region_info, places_data, supported_types):
         return jsonify(results=stat)
 
     @data.route('/regions/stat/<int:region>')
-    @cache.memoize(100)
     def data_region(region):
         region_data = {}
 
@@ -53,29 +52,17 @@ def construct_data(region_info, places_data, supported_types):
     def data_object_all():
         return jsonify(results=places_data)
 
-    @data.route('/objects/all/by_region', methods=['GET'])
-    @cache.memoize(100)
-    def data_object_all_by_region():
-        region_list = [int(region) for region in request.args.get('regions').split(',')]
-        objects = {}
-        for region in region_list:
-            objects[region] = [place for place in places_data if place['region'] == region]
-        return jsonify(results=objects)
-
     @data.route('/objects/by_type/<object_type>')
-    @cache.memoize(100)
     def data_objects_by_type(object_type):
         objects = [place for place in places_data if place['type'] == object_type]
         return jsonify(results=objects)
 
     @data.route('/objects/by_region/<int:region>')
-    @cache.memoize(100)
     def data_region_objects(region):
         objects = [place for place in places_data if place['region'] == region]
         return jsonify(results=objects)
 
     @data.route('/objects/by_region/<int:region>/by_type/<object_type>')
-    @cache.memoize(100)
     def data_region_objects_by_type(region, object_type):
         objects = [place for place in places_data if place['region'] == region and place['type'] == object_type]
         return jsonify(results=objects)
