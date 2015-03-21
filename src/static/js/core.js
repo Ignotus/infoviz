@@ -10,6 +10,7 @@ Core = function() {
     this.layerCaptions[this.layerID['region']] = "Regions";
 
     var self = this;
+    var showMapStatHandle = null;
 
     this.plotRegionStat = function(propertiesList, title, plotName, colors) {
         var margin = {
@@ -122,11 +123,16 @@ Core = function() {
                     svg.selectAll('.interaction-circle').remove()
                     svg.selectAll('.star-interaction-label').remove()
                 })
+                .on('click', function(d) {
+                    // A bit work around. TODO: Change subtr(5) to more workable thing
+                    self.showMapStatHandle(self.layerID[d.key], plotName.substr(5).split(','))
+                })
         }
     }
 
     
     this.setShowMapStatHandle = function(handle) {
+        self.showMapStatHandle = handle;
         ajax('/data/objects/types', function(results) {
             self.layerType = results;
             for (var i = 0; i < self.layerType.length; ++i) {

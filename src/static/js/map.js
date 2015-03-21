@@ -4,6 +4,7 @@ Map = function(core) {
     this.map = L.mapbox.map('map', 'examples.map-i86nkdio').setView(amsterdamCoordinates, 13);
 
     var clickedRegion = 0;
+    var clickedRegions = [];
     var polygons = {};
     var polygonsStyle = {};
     this.starPlotData = {};
@@ -30,6 +31,12 @@ Map = function(core) {
         });
 
         self.markers = [];
+    }
+
+    this.reselect = function() {
+        for (var i = 0; i < clickedRegions.length; ++i) {
+            polygons[clickedRegions[i]].setStyle({fillColor: colours[usedColors[i]]});
+        }
     }
 
     var drawStarPlot = function(regionName, [color]) {
@@ -74,7 +81,7 @@ Map = function(core) {
                 polygons[e.region] = polygon;
                 polygonsStyle[e.region] = regionStyle;
                 
-                clickedRegions = []
+                self.clickedRegions = []
                 
                 polygon.on('click', function(e1) {
                     clickedRegion = e.region;
@@ -93,6 +100,11 @@ Map = function(core) {
                             d3.select('.hist').select('.chartBig').remove()
                         }
                     } else {
+                        // Limit an amount of selection
+                        if (usedColors.length > 2) {
+                            return;
+                        }
+
                         var freeColor
                         for (var color in colours){
                             if(usedColors.indexOf(color) === -1){
@@ -104,7 +116,7 @@ Map = function(core) {
 
                         clickedRegions.push(clickedRegion)
                         e1.target.setStyle({fillColor: colours[freeColor]});
-                        
+
                         if (e.region in self.starPlotData) {
                             self.starPlotData = {};
                         }
@@ -122,7 +134,8 @@ Map = function(core) {
         });
     }
 
-    this.showMapStat = function(categoryID) {
+    this.showMapStat = function(categoryID, regions) {
+        regions = typeof regions !== 'undefined' ? regions : null;
         $("span#layer-caption").html(core.layerCaptions[categoryID]);
 
         removeMarkers();
@@ -142,18 +155,26 @@ Map = function(core) {
             return;
         }
 
+        var regionMap = {};
+        if (regions) {
+            regions.forEach(function(e) {
+                regionMap[e] = true;
+            });
+        }
 
         ajax('/data/regions', function(results) {
             var markers = new L.MarkerClusterGroup();
             results.forEach(function(e) {
-                var path = '/data/objects/by_region/' + e.region + '/by_type/' + core.layerType[categoryID];
-                ajax(path, function(obj) {
-                    obj.forEach(function(e) {
-                        L.marker(e.coordinate)
-                            .bindPopup(e.name + '<br/>' + e.subtype)
-                            .addTo(markers);
+                if (regions == null || regionMap[e.region] == true) {
+                    var path = '/data/objects/by_region/' + e.region + '/by_type/' + core.layerType[categoryID];
+                    ajax(path, function(obj) {
+                        obj.forEach(function(e) {
+                            L.marker(e.coordinate)
+                                .bindPopup(e.name + '<br/>' + e.subtype)
+                                .addTo(markers);
+                        });
                     });
-                });
+                }
             });
             markers.addTo(self.map);
             self.markers.push(markers);
@@ -195,6 +216,8 @@ Map = function(core) {
                     polygonsStyle[e.region] = emptyStyle;
                 }
             });
+
+            self.reselect();
         });
     }
 }

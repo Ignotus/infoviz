@@ -25,7 +25,7 @@ section {
 
 .board {
 	display: block;
-	width: 50%;
+	width: 645px;
 	height: 100%;
 	right: 0px;
 	overflow: hidden;
