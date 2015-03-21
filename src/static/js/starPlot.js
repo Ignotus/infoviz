@@ -19,8 +19,6 @@ starPlot = function() {
       scale = d3.scale.linear()
         .domain([0, 100])
         .range([0, radius])
-    
-    console.log(colours)
 
     function chart(selection) {
         g = selection

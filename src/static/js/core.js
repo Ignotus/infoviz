@@ -38,28 +38,28 @@ Core = function() {
             .range([0,100])
         
         var activityScale = d3.scale.linear()
-            .domain([0,60])
+            .domain([0,100])
             .range([0,100])
         var culinaryScale = d3.scale.linear()
-            .domain([0,35])
+            .domain([0,100])
             .range([0,100])
         var culturalScale = d3.scale.linear()
-            .domain([0,6])
+            .domain([0,100])
             .range([0,100])
         var greenScale = d3.scale.linear()
-            .domain([0,0.5])
+            .domain([0,100])
             .range([0,100])
         var nonLeisureScale = d3.scale.linear()
-            .domain([0,40])
+            .domain([0,100])
             .range([0,100])
         var relaxationScale = d3.scale.linear()
-            .domain([0,11])
+            .domain([0,100])
             .range([0,100])
         var spiritualScale = d3.scale.linear()
-            .domain([0,2])
+            .domain([0,100])
             .range([0,100])
         var sportScale = d3.scale.linear()
-            .domain([0,2])
+            .domain([0,100])
             .range([0,100])
 
         var scales = {activity:activityScale,
@@ -76,8 +76,7 @@ Core = function() {
         
         for(var color in colors){
             plotColors.push(colours[colors[color]])
-        }
-        console.log('plotColors', title, plotColors) 
+        } 
         
         if(plotName === 'chartBig'){
             width = width2
@@ -99,7 +98,7 @@ Core = function() {
                     .labelMargin(labelMargin)
         var starG = svg.append('g')
                         .call(star)
-        
+
         if (interaction){
             svg.selectAll('.star-interaction')
                 .on('mouseover', function(d) {

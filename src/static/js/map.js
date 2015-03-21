@@ -43,7 +43,7 @@ Map = function(core) {
     
     var drawCombinedPlot = function() {
         d3.select('.hist').select('.chartBig').remove()
-        console.log(data)
+
         core.plotRegionStat(data, label, 'chartBig', usedColors);
         d3.select('.hist').select('.chartBig')
                     .style('text-align', 'center')
@@ -101,12 +101,10 @@ Map = function(core) {
                             }
                         }
                         usedColors.push(freeColor)
-                        console.log('usedColors', colours[freeColor])
+
                         clickedRegions.push(clickedRegion)
                         e1.target.setStyle({fillColor: colours[freeColor]});
                         
-                        console.log(clickedRegions)
-
                         if (e.region in self.starPlotData) {
                             self.starPlotData = {};
                         }
