@@ -77,11 +77,6 @@ Map = function(core) {
                 clickedRegions = []
                 
                 polygon.on('click', function(e1) {
-                    if (clickedRegion != 0) {
-                        polygons[clickedRegion].setStyle(polygonsStyle[clickedRegion]);
-                        clickedRegion = 0;
-                    }
-
                     clickedRegion = e.region;
                     var clickedRegionIndex = clickedRegions.indexOf(clickedRegion)
                     if(clickedRegionIndex >= 0){
@@ -90,6 +85,8 @@ Map = function(core) {
                         label.splice(clickedRegionIndex,1)
                         usedColors.splice(clickedRegionIndex,1)
                         d3.select('.hist').select('.chart'+clickedRegion).remove()
+                        polygons[clickedRegion].setStyle(polygonsStyle[clickedRegion]);
+                        clickedRegion = 0;
                         if(data.length > 0){
                             drawCombinedPlot()
                         }else{
