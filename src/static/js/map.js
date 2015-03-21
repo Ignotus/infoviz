@@ -152,6 +152,8 @@ Map = function(core) {
                 polygons[key].setStyle(style);
                 polygonsStyle[key] = style;
             }
+
+            self.reselect();
             return;
         }
 
