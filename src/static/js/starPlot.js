@@ -19,6 +19,8 @@ starPlot = function() {
       scale = d3.scale.linear()
         .domain([0, 100])
         .range([0, radius])
+    
+    console.log(colours)
 
     function chart(selection) {
         g = selection
@@ -78,7 +80,7 @@ starPlot = function() {
             for (var key in properties) {
                 var keyWithoutDash = key.replace("-", "")
                 var userScale = scales[keyWithoutDash]
-                
+
                 var point = [scale(userScale(properties[key])), r]
                 pathData.push(point)
                 r += radians;

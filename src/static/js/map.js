@@ -8,6 +8,17 @@ Map = function(core) {
     var polygonsStyle = {};
     this.starPlotData = {};
     this.markers = [];
+    
+    var colours = ['rgb(225,151,76)',
+                'rgb(132,186,91)',
+                'rgb(211,94,96)',
+                'rgb(128,133,133)',
+                'rgb(144,103,167)',
+                'rgb(171,104,87)',
+                'rgb(204,194,16)'];
+    var usedColors = [];
+    var data =[];
+    var label = [];
 
     var rainbow = new Rainbow();
 
@@ -21,16 +32,21 @@ Map = function(core) {
         self.markers = [];
     }
 
-    var drawStarPlot = function() {
-        var data = [];
-        var label = [];
-        for (var key in self.starPlotData) {
-            data.push(self.starPlotData[key]);
-            label.push(key);
-        };
-
-        d3.select('.hist').html("");
-        core.plotRegionStat(data, label, 'chart');
+    var drawStarPlot = function(regionName, [color]) {
+        data.push(self.starPlotData[regionName])
+        label.push(regionName)
+        core.plotRegionStat([self.starPlotData[regionName]], regionName, 'chart'+regionName, color);
+        if(data.length > 0){
+            drawCombinedPlot()
+        }
+    }
+    
+    var drawCombinedPlot = function() {
+        d3.select('.hist').select('.chartBig').remove()
+        console.log(data)
+        core.plotRegionStat(data, label, 'chartBig', usedColors);
+        d3.select('.hist').select('.chartBig')
+                    .style('text-align', 'center')
     }
 
     this.drawRegions = function() {
@@ -57,48 +73,55 @@ Map = function(core) {
 
                 polygons[e.region] = polygon;
                 polygonsStyle[e.region] = regionStyle;
-
-/*
-                polygon.on('dblclick', function(e1) {
-                    if (clickedRegion != 0) {
-                        polygons[clickedRegion].setStyle(polygonsStyle[clickedRegion]);
-                        clickedRegion = 0;
-                    }
-                    
-                    clickedRegion = e.region;
-                    e1.target.setStyle({fillColor: '#fec44f'});
-
-                    var newItem = {};
-                    core.layerType.forEach(function(e2) {
-                        newItem[e2] = e[e2];
-                    });
-
-                    self.starPlotData = {};
-                    self.starPlotData[e.region] = newItem;
-
-                    drawStarPlot();
-                });
-*/
+                
+                clickedRegions = []
+                
                 polygon.on('click', function(e1) {
                     if (clickedRegion != 0) {
                         polygons[clickedRegion].setStyle(polygonsStyle[clickedRegion]);
                         clickedRegion = 0;
                     }
-                    
+
                     clickedRegion = e.region;
-                    e1.target.setStyle({fillColor: '#fec44f'});
+                    var clickedRegionIndex = clickedRegions.indexOf(clickedRegion)
+                    if(clickedRegionIndex >= 0){
+                        clickedRegions.splice(clickedRegionIndex,1)
+                        data.splice(clickedRegionIndex,1)
+                        label.splice(clickedRegionIndex,1)
+                        usedColors.splice(clickedRegionIndex,1)
+                        d3.select('.hist').select('.chart'+clickedRegion).remove()
+                        if(data.length > 0){
+                            drawCombinedPlot()
+                        }else{
+                            d3.select('.hist').select('.chartBig').remove()
+                        }
+                    } else {
+                        var freeColor
+                        for (var color in colours){
+                            if(usedColors.indexOf(color) === -1){
+                                freeColor = color
+                                break
+                            }
+                        }
+                        usedColors.push(freeColor)
+                        console.log('usedColors', colours[freeColor])
+                        clickedRegions.push(clickedRegion)
+                        e1.target.setStyle({fillColor: colours[freeColor]});
+                        
+                        console.log(clickedRegions)
 
-                    if (e.region in self.starPlotData) {
-                        self.starPlotData = {};
+                        if (e.region in self.starPlotData) {
+                            self.starPlotData = {};
+                        }
+                        var newItem = {};
+                        core.layerType.forEach(function(e2) {
+                            newItem[e2] = e[e2];
+                        });
+
+                        self.starPlotData[e.region] = newItem;
+
+                        drawStarPlot(e.region, color);
                     }
-                    var newItem = {};
-                    core.layerType.forEach(function(e2) {
-                        newItem[e2] = e[e2];
-                    });
-
-                    self.starPlotData[e.region] = newItem;
-
-                    drawStarPlot();
                 });
             });
         });

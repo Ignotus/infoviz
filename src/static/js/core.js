@@ -11,22 +11,21 @@ Core = function() {
 
     var self = this;
 
-    this.plotRegionStat = function(propertiesList, titleList, plotName) {
+    this.plotRegionStat = function(propertiesList, title, plotName, colors) {
         var margin = {
             top: 60,
             right: 50,
             bottom: 20,
             left: 50
         };
-        
-        var width = 250 - margin.left - margin.right;
-        var width2 = (250 * 2) - margin.left - margin.right;
-        var height = 250 - margin.top - margin.bottom;
-        var height2 = (250 * 2) - margin.top - margin.bottom;
+        var interaction = true
+        var width = 200 - margin.left - margin.right;
+        var width2 = (200 * 2) - margin.left - margin.right;
+        var height = 200 - margin.top - margin.bottom;
+        var height2 = (200 * 2) - margin.top - margin.bottom;
         
         var labelMargin = 20;
-        var colours = ['rgb(114,147,203)',
-                        'rgb(225,151,76)',
+        var colours = ['rgb(225,151,76)',
                         'rgb(132,186,91)',
                         'rgb(211,94,96)',
                         'rgb(128,133,133)',
@@ -72,24 +71,36 @@ Core = function() {
                         spiritual:spiritualScale,
                         sport:sportScale
                     }
+
+        var plotColors = []
         
-        for (var i = 0; i < propertiesList.length; i++) {
-            var svg = d3.select(".hist")
-                        .append("svg")
-                        .attr('class', plotName)
-                        .attr("width", width + margin.left + margin.right)
-                        .attr("height", height + margin.top + margin.bottom)
-            var star = starPlot()
-                        .width(width)
-                        .propertiesList([propertiesList[i]])
-                        .scales(scales)
-                        .colours([colours[i]])
-                        .title(titleList[i])
-                        .margin(margin)
-                        .labelMargin(labelMargin)
-            var starG = svg.append('g')
-                            .call(star)
-                            
+        for(var color in colors){
+            plotColors.push(colours[colors[color]])
+        }
+        console.log('plotColors', title, plotColors) 
+        
+        if(plotName === 'chartBig'){
+            width = width2
+            height = height2
+            interaction = false
+        }
+        var svg = d3.select(".hist")
+                    .append("svg")
+                    .attr('class', plotName)
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+        var star = starPlot()
+                    .width(width)
+                    .propertiesList(propertiesList)
+                    .scales(scales)
+                    .colours(plotColors)
+                    .title(title)
+                    .margin(margin)
+                    .labelMargin(labelMargin)
+        var starG = svg.append('g')
+                        .call(star)
+        
+        if (interaction){
             svg.selectAll('.star-interaction')
                 .on('mouseover', function(d) {
                     svg.selectAll('.star-label')
