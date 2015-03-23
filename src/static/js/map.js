@@ -39,10 +39,10 @@ Map = function(core) {
         }
     }
 
-    var drawStarPlot = function(regionName, [color]) {
+    var drawStarPlot = function(regionName, color) {
         data.push(self.starPlotData[regionName])
         label.push(regionName)
-        core.plotRegionStat([self.starPlotData[regionName]], regionName, 'chart'+regionName, color);
+        core.plotRegionStat([self.starPlotData[regionName]], regionName, 'chart'+regionName, color[0]);
         if(data.length > 0){
             drawCombinedPlot()
         }
