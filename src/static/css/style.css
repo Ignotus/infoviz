@@ -90,3 +90,9 @@ section {
     text-anchor: middle;
     dominant-baseline:central;
 }
+
+.chartBig{
+	position: absolute;
+  	bottom: 0px;
+  	left: 110px;
+}

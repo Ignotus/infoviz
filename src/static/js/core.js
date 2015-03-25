@@ -12,6 +12,8 @@ Core = function() {
     var self = this;
     var showMapStatHandle = null;
 
+    $('#board').animate({"margin-right": '-=500'});
+
     this.plotRegionStat = function(propertiesList, title, plotName, colors) {
         var margin = {
             top: 60,
@@ -26,13 +28,13 @@ Core = function() {
         var height2 = (200 * 2) - margin.top - margin.bottom;
         
         var labelMargin = 20;
-        var colours = ['rgb(225,151,76)',
-                        'rgb(132,186,91)',
-                        'rgb(211,94,96)',
-                        'rgb(128,133,133)',
-                        'rgb(144,103,167)',
-                        'rgb(171,104,87)',
-                        'rgb(204,194,16)'];
+    var colours = ['#FFB11F',
+                '#40FFFC',
+                '#EE33FF',
+                'rgb(128,133,133)',
+                'rgb(144,103,167)',
+                'rgb(171,104,87)',
+                'rgb(204,194,16)'];
 
         var scale = d3.scale.linear()
             .domain([0,100])
@@ -159,6 +161,7 @@ Core = function() {
     }
 }
 
+var board_hidden = true;
 var core = new Core();
 var map = new Map(core);
 

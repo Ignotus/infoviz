@@ -1,7 +1,7 @@
 Map = function(core) {
     L.mapbox.accessToken = 'pk.eyJ1IjoieGlhb2xpIiwiYSI6IkhpWkZhZFkifQ.RgWs4kq33jfD3d46_TTd6g';
-    var amsterdamCoordinates = [52.3648367,4.9151507];
-    this.map = L.mapbox.map('map', 'examples.map-i86nkdio').setView(amsterdamCoordinates, 13);
+    var amsterdamCoordinates = [52.370000, 4.975518];
+    this.map = L.mapbox.map('map', 'examples.map-i86nkdio').setView(amsterdamCoordinates, 12);
 
     var clickedRegion = 0;
     var clickedRegions = [];
@@ -10,9 +10,9 @@ Map = function(core) {
     this.starPlotData = {};
     this.markers = [];
     
-    var colours = ['rgb(225,151,76)',
-                'rgb(132,186,91)',
-                'rgb(211,94,96)',
+    var colours = ['#FFB11F',
+                '#40FFFC',
+                '#EE33FF',
                 'rgb(128,133,133)',
                 'rgb(144,103,167)',
                 'rgb(171,104,87)',
@@ -67,10 +67,10 @@ Map = function(core) {
 
             results.forEach(function(e) {
                 var popupMessage = '<center><font size="3"><b>' + e.region + '</b></font></center>'
-                        + '<b>Region area</b>: ' + e.area + ' m^2<br />'
+                        + '<b>Region area</b>: ' + e.area + ' m²<br />'
                         + '<b>Average price</b>: ' + e.avgPrice + ' EUR <br />'
-                        + '<b>Average price per m^2</b>: ' + e.avgPricePerSquareMeter + ' EUR <br />'
-                        + '<b>Average surface area</b>: ' + e.avgSurfaceArea + ' m^2<br />'
+                        + '<b>Average price per m²</b>: ' + e.avgPricePerSquareMeter + ' EUR <br />'
+                        + '<b>Average surface area</b>: ' + e.avgSurfaceArea + ' m²<br />'
                         + '<a href="http://www.funda.nl/koop/amsterdam/'
                         + e.region + '/"><center>Find a house</center></a>';
                 var polygon = L.polygon(e.border)
@@ -84,6 +84,10 @@ Map = function(core) {
                 self.clickedRegions = []
                 
                 polygon.on('click', function(e1) {
+                    if(board_hidden) {
+                        board_hidden = false;
+                        $('#board').animate({"margin-right": '+=500'});
+                    }
                     clickedRegion = e.region;
                     var clickedRegionIndex = clickedRegions.indexOf(clickedRegion)
                     if(clickedRegionIndex >= 0){
