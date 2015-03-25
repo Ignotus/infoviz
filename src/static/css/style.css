@@ -16,7 +16,7 @@ section {
   
 #map {
 	position: absolute;
-	width: 100%;
+	width: 70%;
 	height: 100%;
 	top: 0px; 
 	left: 0px;
@@ -25,24 +25,30 @@ section {
 
 .board {
 	display: block;
-	width: 645px;
+	width: 30%;
 	height: 100%;
 	right: 0px;
 	overflow: hidden;
 	z-index: 1000;
-	padding: 20px;
+	padding: 1%;
 	
 	background: #FFF;
 	position: fixed;
 
 }
 
-.bar {
-	fill: steelblue;
+.starPlots {
+    display: inline-block;
+    height:60%;
+    width:100%;
 }
-
-.bar:hover {
-	fill: #fec44f;
+.starPlots-title{
+    font: 16px sans-serif;
+    text-align: center;    
+}
+.bigPlot {
+    height:35%;
+    width: 100%;
 }
 
 .axis {
@@ -55,7 +61,6 @@ section {
 	stroke: #000;
 	shape-rendering: crispEdges;
 }
- 
 
 .map-layer-switcher {
 	z-index: 1;
@@ -64,9 +69,6 @@ section {
   	width: 150px;
 }
 
-.chart {
-    margin-bottom:40px
-}
 .star-title {
     font-size: 14px;
 }

@@ -23,9 +23,9 @@ starPlot = function() {
     function chart(selection) {
         g = selection
             .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+        drawChart()
         drawLabels()
         drawLines()
-        drawChart()
         drawInteraction()
     }
 
