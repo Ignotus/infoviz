@@ -1,6 +1,7 @@
 Map = function(core) {
     L.mapbox.accessToken = 'pk.eyJ1IjoieGlhb2xpIiwiYSI6IkhpWkZhZFkifQ.RgWs4kq33jfD3d46_TTd6g';
-    var amsterdamCoordinates = [52.3648367,4.9151507];
+
+    var amsterdamCoordinates = [52.370000, 4.975518];
     this.map = L.mapbox.map('map', 'examples.map-i86nkdio',{
             // set that bounding box as maxBounds to restrict moving the map
             // see full maxBounds documentation:
@@ -18,9 +19,9 @@ Map = function(core) {
     this.starPlotData = {};
     this.markers = [];
     
-    var colours = ['rgb(225,151,76)',
-                'rgb(132,186,91)',
-                'rgb(211,94,96)',
+    var colours = ['#FFB11F',
+                '#40FFFC',
+                '#EE33FF',
                 'rgb(128,133,133)',
                 'rgb(144,103,167)',
                 'rgb(171,104,87)',
@@ -91,6 +92,10 @@ Map = function(core) {
                 self.clickedRegions = []
                 
                 polygon.on('click', function(e1) {
+                    if(board_hidden) {
+                        board_hidden = false;
+                        $('#board').animate({"margin-right": '+=500'});
+                    }
                     clickedRegion = e.region;
                     var clickedRegionIndex = clickedRegions.indexOf(clickedRegion)
                     if(clickedRegionIndex >= 0){
