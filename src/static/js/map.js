@@ -1,7 +1,16 @@
 Map = function(core) {
     L.mapbox.accessToken = 'pk.eyJ1IjoieGlhb2xpIiwiYSI6IkhpWkZhZFkifQ.RgWs4kq33jfD3d46_TTd6g';
-    var amsterdamCoordinates = [52.3648367,4.9151507];
-    this.map = L.mapbox.map('map', 'examples.map-i86nkdio').setView(amsterdamCoordinates, 13);
+
+    var amsterdamCoordinates = [52.370000, 4.975518];
+    this.map = L.mapbox.map('map', 'examples.map-i86nkdio',{
+            // set that bounding box as maxBounds to restrict moving the map
+            // see full maxBounds documentation:
+            // http://leafletjs.com/reference.html#map-maxbounds4
+            maxZoom: 17,
+            minZoom: 11
+        }).setView(amsterdamCoordinates, 12);
+    this.map.addControl(L.mapbox.geocoderControl('mapbox.places'))
+    this.map.doubleClickZoom.disable();
 
     var clickedRegion = 0;
     var clickedRegions = [];
@@ -10,13 +19,13 @@ Map = function(core) {
     this.starPlotData = {};
     this.markers = [];
     
-    var colours = ['rgb(225,151,76)',
-                'rgb(132,186,91)',
-                'rgb(211,94,96)',
-                'rgb(128,133,133)',
-                'rgb(144,103,167)',
-                'rgb(171,104,87)',
-                'rgb(204,194,16)'];
+    var colours = ['rgb(252,177,31)',
+                   'rgb(64,255,252)',
+                   'rgb(238,51,255)',
+                   'rgb(128,133,133)',
+                   'rgb(144,103,167)',
+                   'rgb(171,104,87)',
+                   'rgb(204,194,16)'];
     var usedColors = [];
     var data =[];
     var label = [];
@@ -49,11 +58,9 @@ Map = function(core) {
     }
     
     var drawCombinedPlot = function() {
-        d3.select('.hist').select('.chartBig').remove()
+        d3.select('.bigPlot').select('.chartBig').remove()
 
-        core.plotRegionStat(data, label, 'chartBig', usedColors);
-        d3.select('.hist').select('.chartBig')
-                    .style('text-align', 'center')
+        core.plotRegionStat(data, label, 'chartBig', usedColors)
     }
 
     this.drawRegions = function() {
@@ -67,12 +74,13 @@ Map = function(core) {
 
             results.forEach(function(e) {
                 var popupMessage = '<center><font size="3"><b>' + e.region + '</b></font></center>'
-                        + '<b>Region area</b>: ' + e.area + ' m^2<br />'
-                        + '<b>Average price</b>: ' + e.avgPrice + ' EUR <br />'
-                        + '<b>Average price per m^2</b>: ' + e.avgPricePerSquareMeter + ' EUR <br />'
-                        + '<b>Average surface area</b>: ' + e.avgSurfaceArea + ' m^2<br />'
+                        + '<b>Region area</b>: ' + formatNum(e.area) + ' m<sup>2</sup><br />'
+                        + '<b>Average price</b>: ' + formatNum(e.avgPrice) + ' EUR <br />'
+                        + '<b>Average price per m<sup>2</sup></b>: ' + formatNum(e.avgPricePerSquareMeter) + ' EUR <br />'
+                        + '<b>Average surface area</b>: ' + formatNum(e.avgSurfaceArea) + ' m<sup>2</sup><br />'
                         + '<a href="http://www.funda.nl/koop/amsterdam/'
-                        + e.region + '/"><center>Find a house</center></a>';
+                        + e.region + '/" target="_blank"><center><img src="http://png-5.findicons.com/files/icons/1686/led/16/house.png"> Find a house</center></a>';
+                        
                 var polygon = L.polygon(e.border)
                     .bindPopup(popupMessage)
                     .setStyle(regionStyle)
@@ -84,6 +92,10 @@ Map = function(core) {
                 self.clickedRegions = []
                 
                 polygon.on('click', function(e1) {
+                    if(board_hidden) {
+                        board_hidden = false;
+                        $('.board').animate({'margin-right': '+=500'});
+                    }
                     clickedRegion = e.region;
                     var clickedRegionIndex = clickedRegions.indexOf(clickedRegion)
                     if(clickedRegionIndex >= 0){
@@ -91,17 +103,17 @@ Map = function(core) {
                         data.splice(clickedRegionIndex,1)
                         label.splice(clickedRegionIndex,1)
                         usedColors.splice(clickedRegionIndex,1)
-                        d3.select('.hist').select('.chart'+clickedRegion).remove()
+                        d3.select('.starPlots').select('.chart'+clickedRegion).remove()
                         polygons[clickedRegion].setStyle(polygonsStyle[clickedRegion]);
                         clickedRegion = 0;
                         if(data.length > 0){
                             drawCombinedPlot()
                         }else{
-                            d3.select('.hist').select('.chartBig').remove()
+                            d3.select('.bigPlot').select('.chartBig').remove()
                         }
                     } else {
                         // Limit an amount of selection
-                        if (usedColors.length > 2) {
+                        if (usedColors.length >= 4) {
                             return;
                         }
 
@@ -132,6 +144,11 @@ Map = function(core) {
                 });
             });
         });
+    }
+    
+    formatNum = function(num){
+       num = (('' + num).replace('.', ','))
+       return ("" + num).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, function($1) { return $1 + "." });
     }
 
     this.showMapStat = function(categoryID, regions) {
