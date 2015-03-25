@@ -13,8 +13,7 @@ Core = function() {
     var showMapStatHandle = null;
 
     $('#board').animate({"margin-right": '-=500'});
-
-    this.plotRegionStat = function(propertiesList, title, plotName, colors) {
+    this.plotRegionStat = function(propertiesList, title, plotName, colors, map) {
         var margin = {
             top: 60,
             right: 60,
@@ -24,7 +23,12 @@ Core = function() {
         
         var interaction = true
         var widthTest = (((window.innerWidth * 0.3)/2) - (window.innerWidth * 0.01))
-
+        var heightTest = (((window.innerHeight * 0.6) / 2) - (window.innerWidth * 0.01))
+        
+        if (heightTest < widthTest){
+            widthTest = heightTest
+        }
+        
         var width = widthTest - margin.left - margin.right;
         var width2 = (widthTest * 1.5) - margin.left - margin.right;
         var height = widthTest - margin.top - margin.bottom;
@@ -143,7 +147,6 @@ Core = function() {
             .on('click', function(d) {
                 // A bit work around. TODO: Change subtr(5) to more workable thing
                 self.showMapStatHandle(self.layerID[d.key], plotName.substr(5).split(','))
-                return 5
             })
     }
 
