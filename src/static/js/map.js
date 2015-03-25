@@ -19,13 +19,13 @@ Map = function(core) {
     this.starPlotData = {};
     this.markers = [];
     
-    var colours = ['#FFB11F',
-                '#40FFFC',
-                '#EE33FF',
-                'rgb(128,133,133)',
-                'rgb(144,103,167)',
-                'rgb(171,104,87)',
-                'rgb(204,194,16)'];
+    var colours = ['rgb(252,177,31)',
+                   'rgb(64,255,252)',
+                   'rgb(238,51,255)',
+                   'rgb(128,133,133)',
+                   'rgb(144,103,167)',
+                   'rgb(171,104,87)',
+                   'rgb(204,194,16)'];
     var usedColors = [];
     var data =[];
     var label = [];
@@ -94,7 +94,7 @@ Map = function(core) {
                 polygon.on('click', function(e1) {
                     if(board_hidden) {
                         board_hidden = false;
-                        $('#board').animate({"margin-right": '+=500'});
+                        $('.board').animate({'margin-right': '+=500'});
                     }
                     clickedRegion = e.region;
                     var clickedRegionIndex = clickedRegions.indexOf(clickedRegion)

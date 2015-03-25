@@ -1,40 +1,37 @@
 body {
-	overflow: hidden;
-  	background: #FFF;
- 	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-	margin: 0px;
-	padding: 0px; 
- 
+    overflow: hidden;
+    background: #FFF;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    margin: 0px;
+    padding: 0px;
 }
 
 section {
-	background: #fff;
-	padding: 20px;
-	border-radius: 10px;
-	min-width: 740px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 740px;
 }
   
 #map {
-	position: absolute;
-	width: 70%;
-	height: 100%;
-	top: 0px; 
-	left: 0px;
-	background: url();
+    position: absolute;
+    width: 70%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background: url();
 }
 
 .board {
-	display: block;
-	width: 30%;
-	height: 100%;
-	right: 0px;
-	overflow: hidden;
-	z-index: 1000;
-	padding: 1%;
-	
-	background: #FFF;
-	position: fixed;
-
+    display: block;
+    width: 30%;
+    height: 100%;
+    right: 0px;
+    overflow: hidden;
+    z-index: 1000;
+    padding: 1%;
+    background: #FFF;
+    position: fixed;
 }
 
 .starPlots {
@@ -52,21 +49,21 @@ section {
 }
 
 .axis {
-	font: 10px sans-serif;
+    font: 10px sans-serif;
 }
 
 .axis path,
 .axis line {
-	fill: none;
-	stroke: #000;
-	shape-rendering: crispEdges;
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
 }
 
 .map-layer-switcher {
-	z-index: 1;
-	position: absolute;
-  	top: 10px; left: 100px;
-  	width: 150px;
+    z-index: 1;
+    position: absolute;
+    top: 10px; left: 100px;
+    width: 150px;
 }
 
 .star-title {
@@ -93,8 +90,8 @@ section {
     dominant-baseline:central;
 }
 
-.chartBig{
-	position: absolute;
-  	bottom: 0px;
-  	left: 110px;
+.chartBig {
+    position: absolute;
+    bottom: 0px;
+    left: 110px;
 }
