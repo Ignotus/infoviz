@@ -73,12 +73,13 @@ Map = function(core) {
 
             results.forEach(function(e) {
                 var popupMessage = '<center><font size="3"><b>' + e.region + '</b></font></center>'
-                        + '<b>Region area</b>: ' + formatNum(e.area) + ' m^2<br />'
+                        + '<b>Region area</b>: ' + formatNum(e.area) + ' m<sup>2</sup><br />'
                         + '<b>Average price</b>: ' + formatNum(e.avgPrice) + ' EUR <br />'
-                        + '<b>Average price per m^2</b>: ' + formatNum(e.avgPricePerSquareMeter) + ' EUR <br />'
-                        + '<b>Average surface area</b>: ' + formatNum(e.avgSurfaceArea) + ' m^2<br />'
+                        + '<b>Average price per m<sup>2</sup></b>: ' + formatNum(e.avgPricePerSquareMeter) + ' EUR <br />'
+                        + '<b>Average surface area</b>: ' + formatNum(e.avgSurfaceArea) + ' m<sup>2</sup><br />'
                         + '<a href="http://www.funda.nl/koop/amsterdam/'
-                        + e.region + '/" target="_blank"><center>Find a house</center></a>';
+                        + e.region + '/" target="_blank"><center><img src="http://png-5.findicons.com/files/icons/1686/led/16/house.png"> Find a house</center></a>';
+                        
                 var polygon = L.polygon(e.border)
                     .bindPopup(popupMessage)
                     .setStyle(regionStyle)
