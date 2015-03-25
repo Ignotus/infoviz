@@ -22,7 +22,12 @@ Core = function() {
         
         var interaction = true
         var widthTest = (((window.innerWidth * 0.3)/2) - (window.innerWidth * 0.01))
-
+        var heightTest = (((window.innerHeight * 0.6) / 2) - (window.innerWidth * 0.01))
+        
+        if (heightTest < widthTest){
+            widthTest = heightTest
+        }
+        
         var width = widthTest - margin.left - margin.right;
         var width2 = (widthTest * 1.5) - margin.left - margin.right;
         var height = widthTest - margin.top - margin.bottom;
