@@ -12,7 +12,7 @@ Core = function() {
     var self = this;
     var showMapStatHandle = null;
 
-    this.plotRegionStat = function(propertiesList, title, plotName, colors) {
+    this.plotRegionStat = function(propertiesList, title, plotName, colors, map) {
         var margin = {
             top: 60,
             right: 60,
@@ -144,7 +144,6 @@ Core = function() {
             .on('click', function(d) {
                 // A bit work around. TODO: Change subtr(5) to more workable thing
                 self.showMapStatHandle(self.layerID[d.key], plotName.substr(5).split(','))
-                return 5
             })
     }
 
