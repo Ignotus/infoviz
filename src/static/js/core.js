@@ -191,4 +191,3 @@ core.setShowMapStatHandle(map.showMapStat);
 core.showPopupHandler = map.showPopup
 map.drawRegions();
 
-

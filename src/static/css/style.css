@@ -95,3 +95,51 @@ section {
     margin-left: auto;
     margin-right: auto;
 }
+
+#myCarousel {
+    display: block;
+    width: 30%;
+    height: 100%;
+    right: 0px;
+    z-index: 1;
+    padding: 0;
+    background: #FFF;
+    position: fixed;
+}
+
+#myCarousel h2 {
+    margin: 0;     
+    color: #666;
+    padding-top: 50px;
+    font-size: 36px;
+    font-family: "trebuchet ms", sans-serif;    
+}
+
+#myCarousel h3 {
+    font-family: "trebuchet ms", sans-serif;    
+}
+
+#myCarousel .item {
+    background: #333;    
+    text-align: center;
+    height: 1600px !important;
+}
+
+#myCarousel .carousel {
+    margin-top: 20px;
+}
+#myCarousel .bs-example {
+    margin: 20px;
+}
+
+#myCarousel #carousel-caption {
+    position: absolute;
+    right: 15%;
+    left: 15%;
+    z-index: 10;
+    padding-top: 120px;
+    padding-bottom: 20px;
+    color: #FFF;
+    text-align: center;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
+}

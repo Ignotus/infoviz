@@ -94,6 +94,7 @@ Map = function(core) {
                     if (board_hidden) {
                         board_hidden = false;
                         $('.board').animate({'margin-right': '+=500'});
+                        $('.myCarousel').hide();
                     }
                     clickedRegion = e.region;
                     e1.target.closePopup()
