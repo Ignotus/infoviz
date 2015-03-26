@@ -19,6 +19,7 @@ Core = function() {
 
     var self = this;
     var showMapStatHandle = null;
+    this.showPopupHandler = null;
 
     $('.board').animate({'margin-right': '-=500'});
     this.plotRegionStat = function(propertiesList, title, plotName, colors, map) {
@@ -147,6 +148,10 @@ Core = function() {
             .on('click', function(d) {
                 var regions = ('' + title).split(',')
                 self.showMapStatHandle(self.layerID[d.key], regions)
+
+                if (regions.length == 1) {
+                    self.showPopupHandler(regions[0])
+                }
             })
     }
 
@@ -179,11 +184,11 @@ Core = function() {
     }
 }
 
-var board_hidden = true;
 var core = new Core();
 var map = new Map(core);
 
 core.setShowMapStatHandle(map.showMapStat);
+core.showPopupHandler = map.showPopup
 map.drawRegions();
 
 

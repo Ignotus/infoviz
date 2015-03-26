@@ -27,6 +27,8 @@ Map = function(core) {
 
     var self = this;
 
+    var board_hidden = true;
+
     var removeMarkers = function() {
         self.markers.forEach(function(e) {
             self.map.removeLayer(e);
@@ -54,6 +56,10 @@ Map = function(core) {
         d3.select('.bigPlot').select('.chartBig').remove()
 
         core.plotRegionStat(data, label, 'chartBig', usedColors)
+    }
+
+    this.showPopup = function(postcode) {
+        polygons[postcode].openPopup();
     }
 
     this.drawRegions = function() {
@@ -85,23 +91,24 @@ Map = function(core) {
                 self.clickedRegions = []
                 
                 polygon.on('click', function(e1) {
-                    if(board_hidden) {
+                    if (board_hidden) {
                         board_hidden = false;
                         $('.board').animate({'margin-right': '+=500'});
                     }
                     clickedRegion = e.region;
+                    e1.target.closePopup()
                     var clickedRegionIndex = clickedRegions.indexOf(clickedRegion)
-                    if(clickedRegionIndex >= 0){
+                    if (clickedRegionIndex >= 0) {
                         clickedRegions.splice(clickedRegionIndex,1)
                         data.splice(clickedRegionIndex,1)
                         label.splice(clickedRegionIndex,1)
                         usedColors.splice(clickedRegionIndex,1)
                         d3.select('.starPlots').select('.chart'+clickedRegion).remove()
-                        polygons[clickedRegion].setStyle(polygonsStyle[clickedRegion]);
+                        e1.target.setStyle(polygonsStyle[clickedRegion]);
                         clickedRegion = 0;
-                        if(data.length > 0){
+                        if (data.length > 0) {
                             drawCombinedPlot()
-                        }else{
+                        } else {
                             d3.select('.bigPlot').select('.chartBig').remove()
                         }
                     } else {
@@ -111,8 +118,8 @@ Map = function(core) {
                         }
 
                         var freeColor
-                        for (var color in core.colours){
-                            if(usedColors.indexOf(color) === -1){
+                        for (var color in core.colours) {
+                            if(usedColors.indexOf(color) === -1) {
                                 freeColor = color
                                 break
                             }
