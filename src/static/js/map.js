@@ -18,15 +18,6 @@ Map = function(core) {
     var polygonsStyle = {};
     this.starPlotData = {};
     this.markers = [];
-    
-
-    var colours = ['rgb(255,177,31)',
-                   'rgb(156,230,228)',
-                   'rgb(232,123,141)',
-                   'rgb(128,133,133)',
-                   'rgb(144,103,167)',
-                   'rgb(171,104,87)',
-                   'rgb(204,194,16)'];
 
     var usedColors = [];
     var data =[];
@@ -46,7 +37,7 @@ Map = function(core) {
 
     this.reselect = function() {
         for (var i = 0; i < clickedRegions.length; ++i) {
-            polygons[clickedRegions[i]].setStyle({fillColor: colours[usedColors[i]]});
+            polygons[clickedRegions[i]].setStyle({fillColor: core.colours[usedColors[i]]});
         }
     }
 
@@ -120,7 +111,7 @@ Map = function(core) {
                         }
 
                         var freeColor
-                        for (var color in colours){
+                        for (var color in core.colours){
                             if(usedColors.indexOf(color) === -1){
                                 freeColor = color
                                 break
@@ -129,7 +120,7 @@ Map = function(core) {
                         usedColors.push(freeColor)
 
                         clickedRegions.push(clickedRegion)
-                        e1.target.setStyle({fillColor: colours[freeColor]});
+                        e1.target.setStyle({fillColor: core.colours[freeColor]});
 
                         if (e.region in self.starPlotData) {
                             self.starPlotData = {};

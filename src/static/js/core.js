@@ -9,6 +9,14 @@ Core = function() {
     this.layerCaptions = {};
     this.layerCaptions[this.layerID['region']] = "Regions";
 
+    this.colours = ['rgb(255,177,31)',
+                    'rgb(156,230,228)',
+                    'rgb(232,123,141)',
+                    'rgb(128,133,133)',
+                    'rgb(144,103,167)',
+                    'rgb(171,104,87)',
+                    'rgb(204,194,16)'];
+
     var self = this;
     var showMapStatHandle = null;
 
@@ -36,16 +44,6 @@ Core = function() {
         
 
         var labelMargin = 15;
-
-        var colours = ['rgb(255,177,31)',
-                       'rgb(156,230,228)',
-                       'rgb(232,123,141)',
-                       'rgb(128,133,133)',
-                       'rgb(144,103,167)',
-                       'rgb(171,104,87)',
-                       'rgb(204,194,16)'];
-
-
 
         var scale = d3.scale.linear()
             .domain([0,100])
@@ -89,7 +87,7 @@ Core = function() {
         var plotColors = []
         
         for(var color in colors){
-            plotColors.push(colours[colors[color]])
+            plotColors.push(this.colours[colors[color]])
         } 
         var location = '.starPlots'
         var displayType = 'inline'
