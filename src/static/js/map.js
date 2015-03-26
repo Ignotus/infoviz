@@ -20,13 +20,13 @@ Map = function(core) {
     this.markers = [];
     
 
-    var colours = ['#FFB11F',
-                '#9CE6E4',
-                '#E87B8D',
-                'rgb(128,133,133)',
-                'rgb(144,103,167)',
-                'rgb(171,104,87)',
-                'rgb(204,194,16)'];
+    var colours = ['rgb(255,177,31)',
+                   'rgb(156,230,228)',
+                   'rgb(232,123,141)',
+                   'rgb(128,133,133)',
+                   'rgb(144,103,167)',
+                   'rgb(171,104,87)',
+                   'rgb(204,194,16)'];
 
     var usedColors = [];
     var data =[];
