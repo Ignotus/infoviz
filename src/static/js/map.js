@@ -1,7 +1,7 @@
 Map = function(core) {
     L.mapbox.accessToken = 'pk.eyJ1IjoieGlhb2xpIiwiYSI6IkhpWkZhZFkifQ.RgWs4kq33jfD3d46_TTd6g';
 
-    var amsterdamCoordinates = [52.370000, 4.975518];
+    var amsterdamCoordinates = [52.370000, 4.895518];
     this.map = L.mapbox.map('map', 'examples.map-i86nkdio',{
             // set that bounding box as maxBounds to restrict moving the map
             // see full maxBounds documentation:
@@ -19,13 +19,15 @@ Map = function(core) {
     this.starPlotData = {};
     this.markers = [];
     
-    var colours = ['rgb(252,177,31)',
-                   'rgb(64,255,252)',
-                   'rgb(238,51,255)',
+
+    var colours = ['rgb(255,177,31)',
+                   'rgb(156,230,228)',
+                   'rgb(232,123,141)',
                    'rgb(128,133,133)',
                    'rgb(144,103,167)',
                    'rgb(171,104,87)',
                    'rgb(204,194,16)'];
+
     var usedColors = [];
     var data =[];
     var label = [];
