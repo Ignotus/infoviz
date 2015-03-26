@@ -3,11 +3,12 @@
 <head>
 	<title>House Finder</title>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="../static/css/style.css" />
 
   <script src='https://code.jquery.com/jquery-1.11.0.min.js'></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
   <!-- Mapbox -->
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
@@ -24,7 +25,7 @@
   <script src="../static/js/min/rainbowvis.js"></script>
 </head>
 <body>
-	<div id="map">
+  <div id="map">
     <div class="btn-group map-layer-switcher">
       <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
         <span id="layer-caption">Regions</span> <span class="caret"></span>
@@ -35,15 +36,94 @@
       </ul>
     </div>
   </div>
+  <div class="bs-example">
+    <div id="myCarousel" class="carousel slide" data-interval="5000" data-ride="carousel">
+      <!-- Carousel indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="3"></li>
+            <li data-target="#myCarousel" data-slide-to="4"></li>
+            <li data-target="#myCarousel" data-slide-to="5"></li>
+            <li data-target="#myCarousel" data-slide-to="6"></li>
+            <li data-target="#myCarousel" data-slide-to="7"></li>
+        </ol>   
+       <!-- Carousel items -->
+        <div class="carousel-inner">
+            <div class="active item">
+                <!-- <h2>Slide 1</h2> -->
+                <div id="carousel-caption">
+                  <h3>Find your dream house via HouseFinder</h3>
+                  <p><img width="300px" src="http://londonwarehouseevents.co.uk/wp-content/uploads/2014/10/amsterdam_houses.jpg" /></p>
+                </div>
+            </div>
+            <div class="item">
+                <!-- <h2>Slide 1</h2> -->
+                <div id="carousel-caption">
+                  <h3>Begin your exploration with clicking on Amsterdam regions</h3>
+                  <p><img src="../static/img/ams_click_region.png"/></p>
+                </div>
+            </div>
+            <div class="item">
+                <!-- <h2>Slide 2</h2> -->
+                <div id="carousel-caption">
+                  <h3>Compare regions via star plots</h3>
+                  <p><img width="300px" src="../static/img/starPlot.png"/></p>
+                </div>
+            </div>
+
+            <div class="item">
+                <!-- <h2>Slide 2</h2> -->
+                <div id="carousel-caption">
+                  <h3>Click star plot axis to start exploring specific places</h3>
+                  <p><img width="300px" src="../static/img/places_region.png"/></p>
+                </div>
+            </div>
+
+            <div class="item">
+                <!-- <h2>Slide 2</h2> -->
+                <div id="carousel-caption">
+                  <h3>To see available houses click "Find a house"</h3>
+                  <p><img width="300px" src="../static/img/find_house.png"/></p>
+                </div>
+            </div>
+
+            <div class="item">
+                <!-- <h2>Slide 2</h2> -->
+                <div id="carousel-caption">
+                  <h3>Explore all places in Amsterdam via map layers</h3>
+                  <p><img width="300px" src="../static/img/region_layers.png"/></p>
+                </div>
+            </div>
+
+            <div class="item">
+                <!-- <h2>Slide 2</h2> -->
+                <div id="carousel-caption">
+                  <h3>The search field is your friend!</h3>
+                  <p><img width="300px" src="../static/img/search.png"/></p>
+                </div>
+            </div>
+
+            <div class="item">
+                <h2>Make Code Not War</h2>
+                <div id="carousel-caption">
+                  <h3>Follow us on Github</h3>
+                  <p><a href="https://github.com/Ignotus/infoviz-project"><img src="../static/img/GitHub-Mark-120px-plus.png" /></a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
  
   <div class="board">
-        <div class="starPlots">
-            <div class="starPlots-title">Buildings in Area / Surface Area</div>
-        </div>
-        <div class="bigPlot">
-            <div class="starPlots-title">Comparison between area's</div>
-        </div>
-	</div>
+    <div class="starPlots">
+      <div class="starPlots-title">Buildings in Area / Surface Area</div>
+    </div>
+    <div class="bigPlot">
+      <div class="starPlots-title">Comparison between area's</div>
+    </div>
+  </div>
 
   <script src="../static/js/min/utils.js"></script>
   <script src="../static/js/min/map.js"></script>

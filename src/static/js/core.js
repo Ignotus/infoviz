@@ -9,8 +9,17 @@ Core = function() {
     this.layerCaptions = {};
     this.layerCaptions[this.layerID['region']] = "Regions";
 
+    this.colours = ['rgb(255,177,31)',
+                    'rgb(156,230,228)',
+                    'rgb(232,123,141)',
+                    'rgb(128,133,133)',
+                    'rgb(144,103,167)',
+                    'rgb(171,104,87)',
+                    'rgb(204,194,16)'];
+
     var self = this;
     var showMapStatHandle = null;
+    this.showPopupHandler = null;
 
     $('.board').animate({'margin-right': '-=500'});
     this.plotRegionStat = function(propertiesList, title, plotName, colors, map) {
@@ -36,16 +45,6 @@ Core = function() {
         
 
         var labelMargin = 15;
-
-        var colours = ['rgb(255,177,31)',
-                       'rgb(156,230,228)',
-                       'rgb(232,123,141)',
-                       'rgb(128,133,133)',
-                       'rgb(144,103,167)',
-                       'rgb(171,104,87)',
-                       'rgb(204,194,16)'];
-
-
 
         var scale = d3.scale.linear()
             .domain([0,100])
@@ -89,7 +88,7 @@ Core = function() {
         var plotColors = []
         
         for(var color in colors){
-            plotColors.push(colours[colors[color]])
+            plotColors.push(this.colours[colors[color]])
         } 
         var location = '.starPlots'
         var displayType = 'inline'
@@ -147,8 +146,12 @@ Core = function() {
                 svg.selectAll('.star-interaction-label').remove()
             })
             .on('click', function(d) {
-                // A bit work around. TODO: Change subtr(5) to more workable thing
-                self.showMapStatHandle(self.layerID[d.key], plotName.substr(5).split(','))
+                var regions = ('' + title).split(',')
+                self.showMapStatHandle(self.layerID[d.key], regions)
+
+                if (regions.length == 1) {
+                    self.showPopupHandler(regions[0])
+                }
             })
     }
 
@@ -181,11 +184,10 @@ Core = function() {
     }
 }
 
-var board_hidden = true;
 var core = new Core();
 var map = new Map(core);
 
 core.setShowMapStatHandle(map.showMapStat);
+core.showPopupHandler = map.showPopup
 map.drawRegions();
-
 

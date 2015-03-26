@@ -18,15 +18,6 @@ Map = function(core) {
     var polygonsStyle = {};
     this.starPlotData = {};
     this.markers = [];
-    
-
-    var colours = ['rgb(255,177,31)',
-                   'rgb(156,230,228)',
-                   'rgb(232,123,141)',
-                   'rgb(128,133,133)',
-                   'rgb(144,103,167)',
-                   'rgb(171,104,87)',
-                   'rgb(204,194,16)'];
 
     var usedColors = [];
     var data =[];
@@ -35,6 +26,8 @@ Map = function(core) {
     var rainbow = new Rainbow();
 
     var self = this;
+
+    var board_hidden = true;
 
     var removeMarkers = function() {
         self.markers.forEach(function(e) {
@@ -46,7 +39,7 @@ Map = function(core) {
 
     this.reselect = function() {
         for (var i = 0; i < clickedRegions.length; ++i) {
-            polygons[clickedRegions[i]].setStyle({fillColor: colours[usedColors[i]]});
+            polygons[clickedRegions[i]].setStyle({fillColor: core.colours[usedColors[i]]});
         }
     }
 
@@ -63,6 +56,10 @@ Map = function(core) {
         d3.select('.bigPlot').select('.chartBig').remove()
 
         core.plotRegionStat(data, label, 'chartBig', usedColors)
+    }
+
+    this.showPopup = function(postcode) {
+        polygons[postcode].openPopup();
     }
 
     this.drawRegions = function() {
@@ -94,23 +91,25 @@ Map = function(core) {
                 self.clickedRegions = []
                 
                 polygon.on('click', function(e1) {
-                    if(board_hidden) {
+                    if (board_hidden) {
                         board_hidden = false;
                         $('.board').animate({'margin-right': '+=500'});
+                        $('.myCarousel').hide();
                     }
                     clickedRegion = e.region;
+                    e1.target.closePopup()
                     var clickedRegionIndex = clickedRegions.indexOf(clickedRegion)
-                    if(clickedRegionIndex >= 0){
+                    if (clickedRegionIndex >= 0) {
                         clickedRegions.splice(clickedRegionIndex,1)
                         data.splice(clickedRegionIndex,1)
                         label.splice(clickedRegionIndex,1)
                         usedColors.splice(clickedRegionIndex,1)
                         d3.select('.starPlots').select('.chart'+clickedRegion).remove()
-                        polygons[clickedRegion].setStyle(polygonsStyle[clickedRegion]);
+                        e1.target.setStyle(polygonsStyle[clickedRegion]);
                         clickedRegion = 0;
-                        if(data.length > 0){
+                        if (data.length > 0) {
                             drawCombinedPlot()
-                        }else{
+                        } else {
                             d3.select('.bigPlot').select('.chartBig').remove()
                         }
                     } else {
@@ -120,8 +119,8 @@ Map = function(core) {
                         }
 
                         var freeColor
-                        for (var color in colours){
-                            if(usedColors.indexOf(color) === -1){
+                        for (var color in core.colours) {
+                            if(usedColors.indexOf(color) === -1) {
                                 freeColor = color
                                 break
                             }
@@ -129,7 +128,7 @@ Map = function(core) {
                         usedColors.push(freeColor)
 
                         clickedRegions.push(clickedRegion)
-                        e1.target.setStyle({fillColor: colours[freeColor]});
+                        e1.target.setStyle({fillColor: core.colours[freeColor]});
 
                         if (e.region in self.starPlotData) {
                             self.starPlotData = {};
