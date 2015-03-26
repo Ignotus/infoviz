@@ -145,8 +145,8 @@ Core = function() {
                 svg.selectAll('.star-interaction-label').remove()
             })
             .on('click', function(d) {
-                // A bit work around. TODO: Change subtr(5) to more workable thing
-                self.showMapStatHandle(self.layerID[d.key], plotName.substr(5).split(','))
+                var regions = ('' + title).split(',')
+                self.showMapStatHandle(self.layerID[d.key], regions)
             })
     }
 
